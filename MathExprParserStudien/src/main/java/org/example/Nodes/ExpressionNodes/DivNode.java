@@ -1,20 +1,21 @@
-package org.example.Nodes;
+package org.example.Nodes.ExpressionNodes;
 
 import com.oracle.truffle.api.frame.VirtualFrame;
+import org.example.Nodes.MathExprNode;
 
-public class AddNode extends MathExprNode{
+public class DivNode extends MathExprNode {
     @Child
     private MathExprNode leftNode, rightNode;
 
-    public AddNode(MathExprNode left, MathExprNode right) {
-        this.leftNode = left;
-        this.rightNode = right;
+    public DivNode(MathExprNode leftNode, MathExprNode rightNode) {
+        this.leftNode = leftNode;
+        this.rightNode = rightNode;
     }
 
     @Override
     public int executeInt(VirtualFrame frame) {
         int leftVal = this.leftNode.executeInt(frame);
         int rightVal = this.rightNode.executeInt(frame);
-        return leftVal + rightVal;
+        return leftVal / rightVal;
     }
 }
