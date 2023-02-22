@@ -20,6 +20,10 @@ CIRCUMFLEX_ACCENT
         : '^'
         ;
 
+SEMICOLON
+        : ';'
+        ;
+
 LPARENT
         : '('
         ;
@@ -28,16 +32,28 @@ RPARENT
         : ')'
         ;
 
-NUM
-        : [0-9]+ ('.' [0-9]+)?
+LSQUAREBRACKET
+        : '['
         ;
 
-WS
-        : [ \t]+ -> skip
+RSQUAREBRACKET
+        : ']'
         ;
 
-NEWLINE
-        : '\r'? '\n'
+fragment DIGIT
+        : [0-9]
+        ;
+
+INT
+        : DIGIT+
+        ;
+
+DOUBLE
+        : DIGIT+ '.' DIGIT+
+        ;
+
+FORMAT
+        : ( ' ' | '\t' | '\n' | '\f')+ -> skip
         ;
 
 ANY
