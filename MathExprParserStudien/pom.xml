@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>MathExprParserStudien</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+        <graalvm.version>22.3.1</graalvm.version>
+        <antlr.version>4.11.1</antlr.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <skipTests>true</skipTests>
+        <truffleGenSourceDir>${project.build.directory}/generated-sources/truffle-dsl-processor/gen/</truffleGenSourceDir>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>${antlr.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Needed for AntlrTestRig -->
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+            <version>${antlr.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.truffle</groupId>
+            <artifactId>truffle-api</artifactId>
+            <version>22.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.truffle</groupId>
+            <artifactId>truffle-dsl-processor</artifactId>
+            <version>${graalvm.version}</version>
+        </dependency>
+        <!-- -->
+        <!-- https://www.graalvm.org/22.0/reference-manual/embed-languages/#dependency-setup -->
+        <dependency>
+            <groupId>org.graalvm.sdk</groupId>
+            <artifactId>graal-sdk</artifactId>
+            <version>${graalvm.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>${antlr.version}</version>
+                <configuration>
+                    <listener>true</listener>
+                    <visitor>true</visitor>
+                    <treatWarningsAsErrors>true</treatWarningsAsErrors>
+                    <detail>true</detail>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <argLine>-Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dgraalvm.locatorDisabled=true
+                        --add-exports org.graalvm.truffle/com.oracle.truffle.api.nodes=ALL-UNNAMED
+                        --add-exports org.graalvm.truffle/com.oracle.truffle.api.exception=ALL-UNNAMED
+                        --add-exports org.graalvm.truffle/com.oracle.truffle.api=ALL-UNNAMED
+                        --add-exports org.graalvm.truffle/com.oracle.truffle.api.interop=ALL-UNNAMED
+                        --add-exports org.graalvm.truffle/com.oracle.truffle.api.frame.VirtualFrame=ALL-UNNAMED
+                    </argLine>
+                    <skipTests>${skipTests}</skipTests>
+                    <trimStackTrace>true</trimStackTrace>
+                    <!-- <printSummary>false</printSummary> -->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgs>
+                        <arg>--add-exports</arg>
+                        <arg>org.graalvm.truffle/com.oracle.truffle.api.nodes=ALL-UNNAMED</arg>
+                        <arg>--add-exports</arg>
+                        <arg>org.graalvm.truffle/com.oracle.truffle.api.exception=ALL-UNNAMED</arg>
+                        <arg>--add-exports</arg>
+                        <arg>org.graalvm.truffle/com.oracle.truffle.api=ALL-UNNAMED</arg>
+                        <arg>--add-exports</arg>
+                        <arg>org.graalvm.truffle/com.oracle.truffle.api.interop=ALL-UNNAMED</arg>
+                    </compilerArgs>
+                    <!-- Workaround to make netbeans recognize generated source files from truffle. -->
+                    <generatedSourcesDirectory>${truffleGenSourceDir}</generatedSourcesDirectory>
+                    <!-- -->
+                    <annotationProcessorPaths>
+                        <!-- Prevents conflicts between truffle and antlr-runtime. -->
+                        <annotationProcessorPath>
+                            <groupId>org.graalvm.truffle</groupId>
+                            <artifactId>truffle-dsl-processor</artifactId>
+                            <version>${graalvm.version}</version>
+                        </annotationProcessorPath>
+                        <!-- -->
+                    </annotationProcessorPaths>
+                    <failOnError>true</failOnError>
+                </configuration>
+                <dependencies>
+                    <!-- Prevents conflicts between truffle and antlr-runtime. -->
+                    <!-- truffle-dsl-processor is indeed only needed at compile time. -->
+                    <dependency>
+                        <groupId>org.graalvm.truffle</groupId>
+                        <artifactId>truffle-dsl-processor</artifactId>
+                        <version>${graalvm.version}</version>
+                    </dependency>
+                    <!-- -->
+                    <!-- -->
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>de.dhbw.rahmlab.geomalgelang.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${truffleGenSourceDir}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
