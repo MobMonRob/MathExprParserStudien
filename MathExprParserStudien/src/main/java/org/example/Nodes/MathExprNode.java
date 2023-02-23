@@ -15,5 +15,5 @@ public abstract class MathExprNode extends Node{
 
     public abstract Dummymatrix executeDummyMatrix(VirtualFrame frame);
 
-    public abstract Object executeGeneric(VirtualFrame frame);
+    public abstract Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException;
 }

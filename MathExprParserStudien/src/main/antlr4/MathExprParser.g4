@@ -12,7 +12,7 @@ expr
         | expr CIRCUMFLEX_ACCENT expr #ExponentExpr
         | expr ASTERISK expr #MultExpr
         | expr SOLIDUS expr #DivExpr //weiss nicht ob div(ide) und dif(ference) vllt nicht bisschen zu ähnlich ist
-        | expr PLUS_SIGN expr #AddExpr
+        | expr PLUS_SIGN expr #AddExpr //TODO plus ist hier actually mehr gewichtet wie minus :(
         | expr HYPHEN_MINUS expr #DifExpr
         | vector CROSS vector #CrossProductExpr
         | vector #VectorExpr

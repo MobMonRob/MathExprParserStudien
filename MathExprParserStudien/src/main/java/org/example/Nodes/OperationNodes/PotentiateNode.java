@@ -33,7 +33,7 @@ public class PotentiateNode extends MathExprNode {
     }
 
     @Override
-    public Object executeGeneric(VirtualFrame frame) {
-        return null;
+    public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
+        return executeDouble(frame);
     }
 }
