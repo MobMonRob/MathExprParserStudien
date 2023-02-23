@@ -10,14 +10,17 @@ import org.example.Nodes.MathExprNode;
 import com.oracle.truffle.api.dsl.NodeChild;
 
 public class SubstrNode extends MathExprNode {
-
+    private MathExprNode leftNode, rightNode;
     public SubstrNode(DoubleLiteralNode left, DoubleLiteralNode right) {
-        super();
+        this.leftNode = left;
+        this.rightNode = right;
     }
 
     @Override
     public double executeDouble(VirtualFrame frame) throws UnexpectedResultException {
-        return 0;
+        double leftVal = this.leftNode.executeDouble(frame);
+        double rightVal = this.rightNode.executeDouble(frame);
+        return leftVal + rightVal;
     }
 
     @Override

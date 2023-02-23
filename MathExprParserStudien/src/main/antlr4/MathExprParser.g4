@@ -29,5 +29,5 @@ matrix
         ;
 
 transposedVector
-        : (DOUBLE* SEMICOLON)
+        : ( DOUBLE DOUBLE+ SEMICOLON)
         ;

@@ -15,14 +15,6 @@ public class AddNode extends MathExprNode {
         this.rightNode = right;
     }
 
-    @Override
-    public int executeInt(VirtualFrame frame) throws UnexpectedResultException {
-        int leftVal = this.leftNode.executeInt(frame);
-        int rightVal = this.rightNode.executeInt(frame);
-        return leftVal + rightVal;
-    }
-
-    @Override
     public double executeDouble(VirtualFrame frame) throws UnexpectedResultException {
         double leftVal = this.leftNode.executeDouble(frame);
         double rightVal = this.rightNode.executeDouble(frame);

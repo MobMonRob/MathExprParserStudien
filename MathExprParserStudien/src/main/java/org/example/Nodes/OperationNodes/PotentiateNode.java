@@ -17,7 +17,9 @@ public class PotentiateNode extends MathExprNode {
 
     @Override
     public double executeDouble(VirtualFrame frame) throws UnexpectedResultException {
-        return 0;
+        double leftVal = this.leftNode.executeDouble(frame);
+        double rightVal = this.rightNode.executeDouble(frame);
+        return Math.pow(leftVal , rightVal);
     }
 
     @Override
