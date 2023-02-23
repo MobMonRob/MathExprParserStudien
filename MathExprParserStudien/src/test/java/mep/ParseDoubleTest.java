@@ -12,6 +12,7 @@ public class ParseDoubleTest {
     public void addTest(){
         MathExprTruffleParser parser2 = new MathExprTruffleParser();
         var men = parser2.parse("1+7+2");
+
         var rootNode = new MathExprRootNode(men);
         CallTarget callTarget = rootNode.getCallTarget();
 

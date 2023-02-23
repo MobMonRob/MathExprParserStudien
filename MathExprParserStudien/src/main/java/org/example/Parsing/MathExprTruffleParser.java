@@ -50,7 +50,6 @@ public class MathExprTruffleParser {
         }
         return null;
     }
-
     private static MathExprNode parenExpr2ExpressionNode(MathExprParser.ParenExprContext parenExpr) {
         return expr2TruffleNode(parenExpr.expr());
     }

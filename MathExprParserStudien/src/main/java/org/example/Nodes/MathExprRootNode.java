@@ -21,5 +21,6 @@ public final class MathExprRootNode extends RootNode {
         } catch (UnexpectedResultException e) {
             throw new RuntimeException(e);
         }
+
     }
 }
