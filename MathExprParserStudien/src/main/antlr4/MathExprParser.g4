@@ -5,7 +5,8 @@ options { tokenVocab=MathExprLexer; }
 program
         :       expr EOF
         ;
-
+//negation muss da auch noch irgendwie rein
+// Operatorauswertung in antlr (wie in Compilerbau) oder in JVM (wie Fabiean)
 expr
         : LPARENT expr RPARENT #ParenExpr
         | expr CIRCUMFLEX_ACCENT expr #ExponentExpr
@@ -13,16 +14,20 @@ expr
         | expr SOLIDUS expr #DivExpr //weiss nicht ob div(ide) und dif(ference) vllt nicht bisschen zu ähnlich ist
         | expr PLUS_SIGN expr #AddExpr
         | expr HYPHEN_MINUS expr #DifExpr
+        | vector CROSS vector #CrossProductExpr
+        | vector #VectorExpr
         | matrix #MatrixExpr
-        | literal #LiteralExpr
+        | DOUBLE #LiteralExpr
         ;
 
-literal : INT|DOUBLE ;
+vector
+        : LSQUAREBRACKET (DOUBLE SEMICOLON)* RSQUAREBRACKET
+        ;
 
 matrix
         : LSQUAREBRACKET transposedVector* RSQUAREBRACKET
         ;
 
 transposedVector
-        : (literal* SEMICOLON)
+        : (DOUBLE* SEMICOLON)
         ;

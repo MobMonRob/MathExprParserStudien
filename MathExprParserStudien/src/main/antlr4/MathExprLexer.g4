@@ -16,6 +16,10 @@ SOLIDUS
         : '/'
         ;
 
+CROSS
+        : 'x'
+        ;
+
 CIRCUMFLEX_ACCENT
         : '^'
         ;
@@ -44,12 +48,8 @@ fragment DIGIT
         : [0-9]
         ;
 
-INT
-        : DIGIT+
-        ;
-
 DOUBLE
-        : DIGIT+ '.' DIGIT+
+        : DIGIT+ ('.' DIGIT+)?
         ;
 
 FORMAT

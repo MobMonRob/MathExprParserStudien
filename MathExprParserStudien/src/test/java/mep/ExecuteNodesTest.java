@@ -1,8 +1,8 @@
 package mep;
 
-import org.example.Nodes.ExpressionNodes.AddNode;
-import org.example.Nodes.ExpressionNodes.IntLiteralNode;
-import org.example.Nodes.ExpressionNodes.SubstrNode;
+import org.example.Nodes.DataTypeNodes.DoubleLiteralNode;
+import org.example.Nodes.OperationNodes.AddNode;
+import org.example.Nodes.OperationNodes.SubstrNode;
 import org.example.Nodes.MathExprNode;
 import org.example.Nodes.MathExprRootNode;
 import com.oracle.truffle.api.CallTarget;
@@ -12,8 +12,8 @@ public class ExecuteNodesTest {
     @Test
     public void addIntegers(){
         MathExprNode exprNode = new AddNode(
-                new IntLiteralNode(22),
-                new IntLiteralNode(9)
+                new DoubleLiteralNode(22),
+                new DoubleLiteralNode(9)
         );
         var rootNode = new MathExprRootNode(exprNode);
         CallTarget callTarget = rootNode.getCallTarget();
@@ -25,8 +25,8 @@ public class ExecuteNodesTest {
     @Test
     public void substIntegers(){
         MathExprNode exprNode = new SubstrNode(
-                new IntLiteralNode(22),
-                new IntLiteralNode(9)
+                new DoubleLiteralNode(22),
+                new DoubleLiteralNode(9)
         );
         var rootNode = new MathExprRootNode(exprNode);
         CallTarget callTarget = rootNode.getCallTarget();

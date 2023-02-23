@@ -1,4 +1,4 @@
-package org.example.Parsing.Gen;// Generated from java-escape by ANTLR 4.11.1
+package org.example.Parsing.Gen; // Generated from java-escape by ANTLR 4.11.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -28,6 +28,18 @@ public interface MathExprParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDivExpr(MathExprParser.DivExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code CrossProductExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterCrossProductExpr(MathExprParser.CrossProductExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code CrossProductExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitCrossProductExpr(MathExprParser.CrossProductExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code DifExpr}
 	 * labeled alternative in {@link MathExprParser#expr}.
@@ -77,6 +89,18 @@ public interface MathExprParserListener extends ParseTreeListener {
 	 */
 	void exitLiteralExpr(MathExprParser.LiteralExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code MatrixExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatrixExpr(MathExprParser.MatrixExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MatrixExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatrixExpr(MathExprParser.MatrixExprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code AddExpr}
 	 * labeled alternative in {@link MathExprParser#expr}.
 	 * @param ctx the parse tree
@@ -100,4 +124,46 @@ public interface MathExprParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParenExpr(MathExprParser.ParenExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code VectorExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterVectorExpr(MathExprParser.VectorExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code VectorExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitVectorExpr(MathExprParser.VectorExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MathExprParser#vector}.
+	 * @param ctx the parse tree
+	 */
+	void enterVector(MathExprParser.VectorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MathExprParser#vector}.
+	 * @param ctx the parse tree
+	 */
+	void exitVector(MathExprParser.VectorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MathExprParser#matrix}.
+	 * @param ctx the parse tree
+	 */
+	void enterMatrix(MathExprParser.MatrixContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MathExprParser#matrix}.
+	 * @param ctx the parse tree
+	 */
+	void exitMatrix(MathExprParser.MatrixContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MathExprParser#transposedVector}.
+	 * @param ctx the parse tree
+	 */
+	void enterTransposedVector(MathExprParser.TransposedVectorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MathExprParser#transposedVector}.
+	 * @param ctx the parse tree
+	 */
+	void exitTransposedVector(MathExprParser.TransposedVectorContext ctx);
 }

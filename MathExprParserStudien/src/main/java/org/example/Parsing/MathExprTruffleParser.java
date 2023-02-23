@@ -1,15 +1,11 @@
 package org.example.Parsing;
 
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.TerminalNode;
-import org.example.Nodes.ExpressionNodes.AddNode;
-import org.example.Nodes.ExpressionNodes.IntLiteralNode;
+import org.example.Nodes.DataTypeNodes.DoubleLiteralNode;
+import org.example.Nodes.OperationNodes.AddNode;
 import org.example.Nodes.MathExprNode;
 import org.example.Parsing.Gen.MathExprLexer;
 import org.example.Parsing.Gen.MathExprParser;
-
-import java.io.IOException;
-import java.io.Reader;
 
 public class MathExprTruffleParser {
 
@@ -48,6 +44,6 @@ public class MathExprTruffleParser {
     }
 
     private static MathExprNode literalExpr2ExprNode(MathExprParser.LiteralExprContext literalExpr) {
-        return new IntLiteralNode(Integer.parseInt(literalExpr.NUM().toString()));
+        return new DoubleLiteralNode(Integer.parseInt(literalExpr.DOUBLE().toString()));
     }
 }
