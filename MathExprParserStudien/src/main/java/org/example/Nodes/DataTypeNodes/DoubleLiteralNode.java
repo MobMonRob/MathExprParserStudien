@@ -2,11 +2,8 @@ package org.example.Nodes.DataTypeNodes;
 
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
-import org.example.Dummy.DummyVector;
-import org.example.Dummy.Dummymatrix;
 import org.example.Nodes.MathExprNode;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.factory.Nd4j;
 
 public class DoubleLiteralNode extends MathExprNode {
 

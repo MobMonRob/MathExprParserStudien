@@ -1,11 +1,21 @@
 package org.example.Parsing;
 
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.BailErrorStrategy;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.example.Nodes.DataTypeNodes.DoubleLiteralNode;
-import org.example.Nodes.OperationNodes.*;
+import org.example.Nodes.DataTypeNodes.MatrixLiteralNode;
+import org.example.Nodes.DataTypeNodes.VectorLiteralNode;
 import org.example.Nodes.MathExprNode;
+import org.example.Nodes.OperationNodes.*;
 import org.example.Parsing.Gen.MathExprLexer;
 import org.example.Parsing.Gen.MathExprParser;
+import org.nd4j.linalg.factory.Nd4j;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MathExprTruffleParser {
 
@@ -48,7 +58,57 @@ public class MathExprTruffleParser {
         if(expr instanceof  MathExprParser.ParenExprContext){
             return parenExpr2ExpressionNode((MathExprParser.ParenExprContext) expr);
         }
-        return null;
+        if (expr instanceof  MathExprParser.VectorExprContext){
+            return vectorExpr2VectorNode((MathExprParser.VectorExprContext) expr);
+        }
+        if (expr instanceof  MathExprParser.MatrixExprContext){
+            return  matrixExpr2MatrixNode((MathExprParser.MatrixExprContext) expr);
+        }
+        throw new RuntimeException("unimplemented in MathExprTruffleParser " + expr.getClass());
+    }
+
+    private static MathExprNode matrixExpr2MatrixNode(MathExprParser.MatrixExprContext expr) {
+        var matrixExprLiteral = (MathExprParser.MatrixContext)expr.children.get(0);
+        var matrixLiterals = matrixExprLiteral.children;
+        matrixLiterals.remove(matrixLiterals.size() - 1); //remove last index which is ']'
+        matrixLiterals.remove(0); //remove first literal which is '['
+        ArrayList<double[]> lines = new ArrayList<>();
+        for (ParseTree matrixChild: matrixLiterals) {
+            var transposedVector = (MathExprParser.TransposedVectorContext) matrixChild;
+            var transposedVectorChildren = transposedVector.children;
+            var array = literalsToArray(transposedVectorChildren);
+            lines.add(array);
+        }
+        double[][] matrixLines = new double[lines.get(0).length][lines.size()];
+        lines.toArray(matrixLines);
+        return new MatrixLiteralNode(
+                Nd4j.createFromArray(matrixLines)
+        );
+    }
+
+    private static MathExprNode vectorExpr2VectorNode(MathExprParser.VectorExprContext expr) {
+       var vectorExprLiteral = (MathExprParser.VectorContext)expr.children.get(0);
+       var vectorLiterals = vectorExprLiteral.children;
+       var array = literalsToArray(vectorLiterals);
+
+        return new VectorLiteralNode(
+            Nd4j.createFromArray(array).reshape(array.length,1)
+        );
+    }
+
+    private static double[] literalsToArray(List<ParseTree> children){
+        return children.stream()
+                .map(e -> e.toString())
+                .filter( e -> {
+                    try {
+                        Double.parseDouble(e);
+                        return true;
+                    } catch (NumberFormatException nfe){
+                        return false;
+                    }
+                })
+                .mapToDouble(e -> Double.parseDouble(e))
+                .toArray();
     }
     private static MathExprNode parenExpr2ExpressionNode(MathExprParser.ParenExprContext parenExpr) {
         return expr2TruffleNode(parenExpr.expr());
