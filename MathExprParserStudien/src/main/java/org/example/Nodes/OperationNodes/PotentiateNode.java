@@ -2,9 +2,8 @@ package org.example.Nodes.OperationNodes;
 
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
-import org.example.Dummy.DummyVector;
-import org.example.Dummy.Dummymatrix;
 import org.example.Nodes.MathExprNode;
+import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class PotentiateNode extends MathExprNode {
     @Child
@@ -23,12 +22,12 @@ public class PotentiateNode extends MathExprNode {
     }
 
     @Override
-    public DummyVector executeDummyVector(VirtualFrame frame) throws UnexpectedResultException {
+    public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
         return null;
     }
 
     @Override
-    public Dummymatrix executeDummyMatrix(VirtualFrame frame) {
+    public INDArray executeMatrix(VirtualFrame frame) {
         return null;
     }
 

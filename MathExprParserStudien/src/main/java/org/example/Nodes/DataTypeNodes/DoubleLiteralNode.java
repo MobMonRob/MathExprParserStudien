@@ -5,6 +5,8 @@ import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import org.example.Dummy.DummyVector;
 import org.example.Dummy.Dummymatrix;
 import org.example.Nodes.MathExprNode;
+import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.factory.Nd4j;
 
 public class DoubleLiteralNode extends MathExprNode {
 
@@ -20,13 +22,13 @@ public class DoubleLiteralNode extends MathExprNode {
     }
 
     @Override
-    public DummyVector executeDummyVector(VirtualFrame frame) {
-        return new DummyVector(value);
+    public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
+        throw new UnexpectedResultException(value);
     }
 
     @Override
-    public Dummymatrix executeDummyMatrix(VirtualFrame frame) {
-        return new Dummymatrix(value);
+    public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
+        throw new UnexpectedResultException(value);
     }
 
     @Override

@@ -7,6 +7,8 @@ program
         ;
 //negation muss da auch noch irgendwie rein
 // Operatorauswertung in antlr (wie in Compilerbau) oder in JVM (wie Fabiean)
+//Idee: matrizen transponieren oder was es da so gibt
+// was mit e oder pi?
 expr
         : LPARENT expr RPARENT #ParenExpr
         | expr CIRCUMFLEX_ACCENT expr #ExponentExpr

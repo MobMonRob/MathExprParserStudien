@@ -3,17 +3,16 @@ package org.example.Nodes;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
-import org.example.Dummy.DummyVector;
-import org.example.Dummy.Dummymatrix;
+import org.nd4j.linalg.api.ndarray.INDArray;
 
 
 public abstract class MathExprNode extends Node{
 
     public abstract double executeDouble(VirtualFrame frame) throws UnexpectedResultException;
 
-    public abstract DummyVector executeDummyVector(VirtualFrame frame) throws UnexpectedResultException;
+    public abstract INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException;
 
-    public abstract Dummymatrix executeDummyMatrix(VirtualFrame frame);
+    public abstract INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException;
 
     public abstract Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException;
 
