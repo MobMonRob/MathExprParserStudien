@@ -23,6 +23,13 @@ public interface MathExprParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDivExpr(MathExprParser.DivExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code CrossProductExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCrossProductExpr(MathExprParser.CrossProductExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code DifExpr}
 	 * labeled alternative in {@link MathExprParser#expr}.
 	 * @param ctx the parse tree
@@ -51,6 +58,13 @@ public interface MathExprParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLiteralExpr(MathExprParser.LiteralExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code MatrixExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatrixExpr(MathExprParser.MatrixExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code AddExpr}
 	 * labeled alternative in {@link MathExprParser#expr}.
 	 * @param ctx the parse tree
@@ -64,4 +78,29 @@ public interface MathExprParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParenExpr(MathExprParser.ParenExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code VectorExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVectorExpr(MathExprParser.VectorExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MathExprParser#vector}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVector(MathExprParser.VectorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MathExprParser#matrix}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMatrix(MathExprParser.MatrixContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MathExprParser#transposedVector}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTransposedVector(MathExprParser.TransposedVectorContext ctx);
 }
