@@ -4,6 +4,7 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import org.example.Nodes.MathExprNode;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.factory.Nd4j;
 
 public class MultNode extends MathExprNode {
     @Child
@@ -27,12 +28,19 @@ public class MultNode extends MathExprNode {
     }
 
     @Override
-    public INDArray executeMatrix(VirtualFrame frame) {
-        return null;
+    public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
+        INDArray leftVal = this.leftNode.executeMatrix(frame);
+        INDArray rightVal = this.rightNode.executeMatrix(frame);
+        return leftVal.mmul(rightVal);
     }
 
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
-        return executeDouble(frame);
+        try{
+            return executeDouble(frame);
+        }catch (UnexpectedResultException e){
+            return executeMatrix(frame);
+        }
+
     }
 }

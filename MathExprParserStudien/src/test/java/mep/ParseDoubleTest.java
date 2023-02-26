@@ -23,8 +23,8 @@ public class ParseDoubleTest {
 
     @Test
     public void substTest(){
-        MathExprTruffleParser parser2 = new MathExprTruffleParser();
-        var men = parser2.parse("1-7-2");
+        MathExprTruffleParser parser = new MathExprTruffleParser();
+        var men = parser.parse("1-7-2");
         var rootNode = new MathExprRootNode(men);
         CallTarget callTarget = rootNode.getCallTarget();
 
@@ -35,8 +35,8 @@ public class ParseDoubleTest {
 
     @Test
     public void divideTest(){
-        MathExprTruffleParser parser2 = new MathExprTruffleParser();
-        var men = parser2.parse("55/11");
+        MathExprTruffleParser parser = new MathExprTruffleParser();
+        var men = parser.parse("55/11");
         var rootNode = new MathExprRootNode(men);
         CallTarget callTarget = rootNode.getCallTarget();
 
@@ -47,8 +47,8 @@ public class ParseDoubleTest {
 
     @Test
     public void multiplyTest(){
-        MathExprTruffleParser parser2 = new MathExprTruffleParser();
-        var men = parser2.parse("2*11*7");
+        MathExprTruffleParser parser = new MathExprTruffleParser();
+        var men = parser.parse("2*11*7");
         var rootNode = new MathExprRootNode(men);
         CallTarget callTarget = rootNode.getCallTarget();
 
@@ -59,8 +59,8 @@ public class ParseDoubleTest {
 
     @Test
     public void potentiateTest(){
-        MathExprTruffleParser parser2 = new MathExprTruffleParser();
-        var men = parser2.parse("2^10");
+        MathExprTruffleParser parser = new MathExprTruffleParser();
+        var men = parser.parse("2^10");
         var rootNode = new MathExprRootNode(men);
         CallTarget callTarget = rootNode.getCallTarget();
 
@@ -71,8 +71,8 @@ public class ParseDoubleTest {
 
     @Test
     public void preferenceTest(){
-        MathExprTruffleParser parser2 = new MathExprTruffleParser();
-        var men = parser2.parse("2+8*8-2^5");
+        MathExprTruffleParser parser = new MathExprTruffleParser();
+        var men = parser.parse("2+8*8-2^5");
         var rootNode = new MathExprRootNode(men);
         CallTarget callTarget = rootNode.getCallTarget();
 
@@ -83,8 +83,8 @@ public class ParseDoubleTest {
 
     @Test
     public void parenthesisTest(){
-        MathExprTruffleParser parser2 = new MathExprTruffleParser();
-        var men = parser2.parse("(2+8)*(8+3)");
+        MathExprTruffleParser parser = new MathExprTruffleParser();
+        var men = parser.parse("(2+8)*(8+3)");
         var rootNode = new MathExprRootNode(men);
         CallTarget callTarget = rootNode.getCallTarget();
 
