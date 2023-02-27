@@ -20,7 +20,7 @@ CROSS
         : 'x'
         ;
 
-CIRCUMFLEX_ACCENT
+CARET
         : '^'
         ;
 
@@ -28,11 +28,11 @@ SEMICOLON
         : ';'
         ;
 
-LPARENT
+LPARENTHESIS
         : '('
         ;
 
-RPARENT
+RPARENTHESIS
         : ')'
         ;
 
@@ -46,6 +46,14 @@ RSQUAREBRACKET
 
 fragment DIGIT
         : [0-9]
+        ;
+
+fragment LETTER
+        : [a-z,A-Z]
+        ;
+
+IDENTIFIER
+        : LETTER+
         ;
 
 DOUBLE

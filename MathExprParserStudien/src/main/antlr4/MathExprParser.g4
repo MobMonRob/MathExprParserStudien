@@ -10,20 +10,26 @@ program
 //Idee: matrizen transponieren oder was es da so gibt
 // was mit e oder pi?
 expr
-        : LPARENT expr RPARENT #ParenExpr
-        | expr CIRCUMFLEX_ACCENT expr #ExponentExpr
-        | expr ASTERISK expr #MultExpr
-        | expr SOLIDUS expr #DivExpr //weiss nicht ob div(ide) und dif(ference) vllt nicht bisschen zu ähnlich ist
-        | expr PLUS_SIGN expr #AddExpr //TODO plus ist hier actually mehr gewichtet wie minus :(
-        | expr HYPHEN_MINUS expr #DifExpr
-        | vector CROSS vector #CrossProductExpr
+        // precedence 0
+        : LPARENTHESIS expr RPARENTHESIS #ParenExpr
+        // precedence 1
+        | IDENTIFIER LPARENTHESIS expr RPARENTHESIS #FunctionExpr
+        // precedence 1.5
+        | expr CARET expr #ExponentExpr
+        // precedence 2
+        | HYPHEN_MINUS expr #NegationExpr
+        // precedence 3
+        | expr (ASTERISK | SOLIDUS | CROSS) expr #MultExpr //#DivExpr
+        // precedence 5
+        | expr (PLUS_SIGN | HYPHEN_MINUS) expr #AddExpr //#DifExpr
+        // Literals
         | vector #VectorExpr
         | matrix #MatrixExpr
         | DOUBLE #LiteralExpr
         ;
 
 vector
-        : LSQUAREBRACKET (DOUBLE SEMICOLON)* RSQUAREBRACKET
+        : LSQUAREBRACKET (DOUBLE SEMICOLON)* RSQUAREBRACKET #VectorLiteral
         ;
 
 matrix
