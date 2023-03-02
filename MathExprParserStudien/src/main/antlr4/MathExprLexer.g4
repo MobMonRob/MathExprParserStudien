@@ -8,6 +8,10 @@ HYPHEN_MINUS
         : '-'
         ;
 
+APOSTROPHE
+        : '\''
+        ;
+
 ASTERISK
         : '*'
         ;

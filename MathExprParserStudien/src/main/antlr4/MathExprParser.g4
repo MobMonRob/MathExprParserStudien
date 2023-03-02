@@ -25,8 +25,9 @@ expr
         // Literals
         | vector #VectorExpr
         | matrix #MatrixExpr
-        | DOUBLE #LiteralExpr
-        ;
+        | vector APOSTROPHE #TransExpr
+        | matrix APOSTROPHE #TransExpr
+        | DOUBLE #LiteralExpr       ;
 
 vector
         : LSQUAREBRACKET (DOUBLE SEMICOLON)* RSQUAREBRACKET #VectorLiteral
