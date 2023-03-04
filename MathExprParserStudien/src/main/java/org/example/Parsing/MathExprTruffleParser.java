@@ -37,43 +37,63 @@ public class MathExprTruffleParser {
     }
 
     private static MathExprNode expr2TruffleNode(MathExprParser.ExprContext expr) {
-        if (expr instanceof MathExprParser.AddExprContext) {
-            return addExpr2AddNode((MathExprParser.AddExprContext) expr);
+        if (expr instanceof MathExprParser.ParenExprContext) {
+            return parenExpr2ExpressionNode((MathExprParser.ParenExprContext) expr);
         }
-        if (expr instanceof MathExprParser.LiteralExprContext) {
-            return literalExpr2ExprNode((MathExprParser.LiteralExprContext) expr);
-        }
-        if (expr instanceof MathExprParser.DifExprContext) {
-            return difExpr2DivNode((MathExprParser.DifExprContext) expr);
-        }
-        if (expr instanceof MathExprParser.MultExprContext) {
-            return multExpr2MultNode((MathExprParser.MultExprContext) expr);
-        }
-        if (expr instanceof MathExprParser.DivExprContext) {
-            return divExpr2MultNode((MathExprParser.DivExprContext) expr);
+        if (expr instanceof MathExprParser.FunctionExprContext) {
+            return functionExpr2ExpressionNode((MathExprParser.FunctionExprContext) expr);
         }
         if (expr instanceof MathExprParser.ExponentExprContext) {
             return expExpr2PotentialNode((MathExprParser.ExponentExprContext) expr);
         }
-        if(expr instanceof  MathExprParser.ParenExprContext){
-            return parenExpr2ExpressionNode((MathExprParser.ParenExprContext) expr);
+        if (expr instanceof MathExprParser.NegationExprContext) {
+            return negationExpr2NegationNode((MathExprParser.NegationExprContext) expr);
         }
-        if (expr instanceof  MathExprParser.VectorExprContext){
+        if (expr instanceof MathExprParser.MultExprContext) {
+            return multExpr2MultNode((MathExprParser.MultExprContext) expr);
+        }
+        if (expr instanceof MathExprParser.AddExprContext) {
+            return addExpr2AddNode((MathExprParser.AddExprContext) expr);
+        }
+        if (expr instanceof MathExprParser.VectorExprContext) {
             return vectorExpr2VectorNode((MathExprParser.VectorExprContext) expr);
         }
-        if (expr instanceof  MathExprParser.MatrixExprContext){
-            return  matrixExpr2MatrixNode((MathExprParser.MatrixExprContext) expr);
+        if (expr instanceof MathExprParser.MatrixExprContext) {
+            return matrixExpr2MatrixNode((MathExprParser.MatrixExprContext) expr);
+        }
+        if (expr instanceof MathExprParser.LiteralExprContext) {
+            return literalExpr2ExprNode((MathExprParser.LiteralExprContext) expr);
         }
         throw new RuntimeException("unimplemented in MathExprTruffleParser " + expr.getClass());
     }
 
+    private static MathExprNode negationExpr2NegationNode(MathExprParser.NegationExprContext negationExpr) {
+        return new NegationNode(
+                expr2TruffleNode(negationExpr.expr())
+        );
+    }
+
+    private static MathExprNode functionExpr2ExpressionNode(MathExprParser.FunctionExprContext sinusExpr) {
+        if (sinusExpr.IDENTIFIER().toString().equals("sin")){
+            return new SinusNode(
+                    expr2TruffleNode(sinusExpr.expr())
+            );
+        }
+        if (sinusExpr.IDENTIFIER().toString().equals("cos")){
+            return new CosinusNode(
+                    expr2TruffleNode(sinusExpr.expr())
+            );
+        }
+        throw new RuntimeException("function not implemented yet");
+    }
+
     private static MathExprNode matrixExpr2MatrixNode(MathExprParser.MatrixExprContext expr) {
-        var matrixExprLiteral = (MathExprParser.MatrixContext)expr.children.get(0);
+        var matrixExprLiteral = (MathExprParser.MatrixContext) expr.children.get(0);
         var matrixLiterals = matrixExprLiteral.children;
         matrixLiterals.remove(matrixLiterals.size() - 1); //remove last index which is ']'
         matrixLiterals.remove(0); //remove first literal which is '['
         ArrayList<double[]> lines = new ArrayList<>();
-        for (ParseTree matrixChild: matrixLiterals) {
+        for (ParseTree matrixChild : matrixLiterals) {
             var transposedVector = (MathExprParser.TransposedVectorContext) matrixChild;
             var transposedVectorChildren = transposedVector.children;
             var array = literalsToArray(transposedVectorChildren);
@@ -87,70 +107,68 @@ public class MathExprTruffleParser {
     }
 
     private static MathExprNode vectorExpr2VectorNode(MathExprParser.VectorExprContext expr) {
-       var vectorExprLiteral = (MathExprParser.VectorContext)expr.children.get(0);
-       var vectorLiterals = vectorExprLiteral.children;
-       var array = literalsToArray(vectorLiterals);
+        var vectorExprLiteral = (MathExprParser.VectorContext) expr.children.get(0);
+        var vectorLiterals = vectorExprLiteral.children;
+        var array = literalsToArray(vectorLiterals);
 
         return new VectorLiteralNode(
-            Nd4j.createFromArray(array).reshape(array.length,1)
+                Nd4j.createFromArray(array).reshape(array.length, 1)
         );
     }
 
-    private static double[] literalsToArray(List<ParseTree> children){
+    private static double[] literalsToArray(List<ParseTree> children) {
         return children.stream()
-                .map(e -> e.toString())
-                .filter( e -> {
-                    try {
-                        Double.parseDouble(e);
-                        return true;
-                    } catch (NumberFormatException nfe){
-                        return false;
-                    }
-                })
+                .filter( e -> e instanceof MathExprParser.ExprContext)
+                .map(e -> e.getChild(0).toString())
                 .mapToDouble(e -> Double.parseDouble(e))
                 .toArray();
+
     }
+
     private static MathExprNode parenExpr2ExpressionNode(MathExprParser.ParenExprContext parenExpr) {
         return expr2TruffleNode(parenExpr.expr());
     }
 
-    private static MathExprNode divExpr2MultNode (MathExprParser.DivExprContext divExpr){
+    private static MathExprNode multExpr2MultNode(MathExprParser.MultExprContext multExpr) {
+        if (multExpr.SOLIDUS() != null) {
             return new DivNode(
-                    expr2TruffleNode(divExpr.expr(0)),
-                    expr2TruffleNode(divExpr.expr(1))
+                    expr2TruffleNode(multExpr.expr(0)),
+                    expr2TruffleNode(multExpr.expr(1))
             );
         }
-
-        private static MathExprNode multExpr2MultNode (MathExprParser.MultExprContext multExpr){
+        if (multExpr.ASTERISK() != null) {
             return new MultNode(
                     expr2TruffleNode(multExpr.expr(0)),
                     expr2TruffleNode(multExpr.expr(1))
             );
         }
+        return new CrossProductNode(
+                expr2TruffleNode(multExpr.expr(0)),
+                expr2TruffleNode(multExpr.expr(1))
+        );
+    }
 
-        private static MathExprNode difExpr2DivNode (MathExprParser.DifExprContext difExpr){
+    private static MathExprNode addExpr2AddNode(MathExprParser.AddExprContext addExpr) {
+        if (addExpr.HYPHEN_MINUS() != null){
             return new SubstrNode(
-                    expr2TruffleNode(difExpr.expr(0)),
-                    expr2TruffleNode(difExpr.expr(1))
-            );
-        }
-
-        private static AddNode addExpr2AddNode (MathExprParser.AddExprContext addExpr){
-            return new AddNode(
                     expr2TruffleNode(addExpr.expr(0)),
                     expr2TruffleNode(addExpr.expr(1))
             );
         }
-
-        private static MathExprNode literalExpr2ExprNode (MathExprParser.LiteralExprContext literalExpr){
-            return new DoubleLiteralNode(Integer.parseInt(literalExpr.DOUBLE().toString()));
-        }
-
-
-        private static MathExprNode expExpr2PotentialNode (MathExprParser.ExponentExprContext expExpr){
-            return new PotentiateNode(
-                    expr2TruffleNode(expExpr.expr(0)),
-                    expr2TruffleNode(expExpr.expr(1))
-            );
-        }
+        return new AddNode(
+                expr2TruffleNode(addExpr.expr(0)),
+                expr2TruffleNode(addExpr.expr(1))
+        );
     }
+
+    private static MathExprNode literalExpr2ExprNode(MathExprParser.LiteralExprContext literalExpr) {
+        return new DoubleLiteralNode(Double.parseDouble(literalExpr.POSITIVEDOUBLE().toString()));
+    }
+
+    private static MathExprNode expExpr2PotentialNode(MathExprParser.ExponentExprContext expExpr) {
+        return new PotentiateNode(
+                expr2TruffleNode(expExpr.expr(0)),
+                expr2TruffleNode(expExpr.expr(1))
+        );
+    }
+}

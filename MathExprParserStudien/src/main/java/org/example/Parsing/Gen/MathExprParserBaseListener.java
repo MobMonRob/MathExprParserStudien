@@ -28,37 +28,13 @@ public class MathExprParserBaseListener implements MathExprParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDivExpr(MathExprParser.DivExprContext ctx) { }
+	@Override public void enterFunctionExpr(MathExprParser.FunctionExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDivExpr(MathExprParser.DivExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCrossProductExpr(MathExprParser.CrossProductExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCrossProductExpr(MathExprParser.CrossProductExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDifExpr(MathExprParser.DifExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDifExpr(MathExprParser.DifExprContext ctx) { }
+	@Override public void exitFunctionExpr(MathExprParser.FunctionExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -148,13 +124,49 @@ public class MathExprParserBaseListener implements MathExprParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVector(MathExprParser.VectorContext ctx) { }
+	@Override public void enterTransExpr(MathExprParser.TransExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVector(MathExprParser.VectorContext ctx) { }
+	@Override public void exitTransExpr(MathExprParser.TransExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNegationExpr(MathExprParser.NegationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNegationExpr(MathExprParser.NegationExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDoubleLiteral(MathExprParser.DoubleLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDoubleLiteral(MathExprParser.DoubleLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVectorLiteral(MathExprParser.VectorLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVectorLiteral(MathExprParser.VectorLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

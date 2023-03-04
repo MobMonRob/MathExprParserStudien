@@ -16,26 +16,12 @@ public interface MathExprParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(MathExprParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code DivExpr}
+	 * Visit a parse tree produced by the {@code FunctionExpr}
 	 * labeled alternative in {@link MathExprParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDivExpr(MathExprParser.DivExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code CrossProductExpr}
-	 * labeled alternative in {@link MathExprParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCrossProductExpr(MathExprParser.CrossProductExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code DifExpr}
-	 * labeled alternative in {@link MathExprParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDifExpr(MathExprParser.DifExprContext ctx);
+	T visitFunctionExpr(MathExprParser.FunctionExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExponentExpr}
 	 * labeled alternative in {@link MathExprParser#expr}.
@@ -86,11 +72,33 @@ public interface MathExprParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVectorExpr(MathExprParser.VectorExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MathExprParser#vector}.
+	 * Visit a parse tree produced by the {@code TransExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVector(MathExprParser.VectorContext ctx);
+	T visitTransExpr(MathExprParser.TransExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NegationExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNegationExpr(MathExprParser.NegationExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code DoubleLiteral}
+	 * labeled alternative in {@link MathExprParser#double}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDoubleLiteral(MathExprParser.DoubleLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code VectorLiteral}
+	 * labeled alternative in {@link MathExprParser#vector}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVectorLiteral(MathExprParser.VectorLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MathExprParser#matrix}.
 	 * @param ctx the parse tree

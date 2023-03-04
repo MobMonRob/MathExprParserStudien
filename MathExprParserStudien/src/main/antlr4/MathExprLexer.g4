@@ -60,7 +60,7 @@ IDENTIFIER
         : LETTER+
         ;
 
-DOUBLE
+POSITIVEDOUBLE
         : DIGIT+ ('.' DIGIT+)?
         ;
 

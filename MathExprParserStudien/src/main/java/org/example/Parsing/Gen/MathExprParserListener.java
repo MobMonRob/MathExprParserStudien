@@ -17,41 +17,17 @@ public interface MathExprParserListener extends ParseTreeListener {
 	 */
 	void exitProgram(MathExprParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code DivExpr}
+	 * Enter a parse tree produced by the {@code FunctionExpr}
 	 * labeled alternative in {@link MathExprParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterDivExpr(MathExprParser.DivExprContext ctx);
+	void enterFunctionExpr(MathExprParser.FunctionExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code DivExpr}
+	 * Exit a parse tree produced by the {@code FunctionExpr}
 	 * labeled alternative in {@link MathExprParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitDivExpr(MathExprParser.DivExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code CrossProductExpr}
-	 * labeled alternative in {@link MathExprParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterCrossProductExpr(MathExprParser.CrossProductExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code CrossProductExpr}
-	 * labeled alternative in {@link MathExprParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitCrossProductExpr(MathExprParser.CrossProductExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code DifExpr}
-	 * labeled alternative in {@link MathExprParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterDifExpr(MathExprParser.DifExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code DifExpr}
-	 * labeled alternative in {@link MathExprParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitDifExpr(MathExprParser.DifExprContext ctx);
+	void exitFunctionExpr(MathExprParser.FunctionExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ExponentExpr}
 	 * labeled alternative in {@link MathExprParser#expr}.
@@ -137,15 +113,53 @@ public interface MathExprParserListener extends ParseTreeListener {
 	 */
 	void exitVectorExpr(MathExprParser.VectorExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MathExprParser#vector}.
+	 * Enter a parse tree produced by the {@code TransExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterVector(MathExprParser.VectorContext ctx);
+	void enterTransExpr(MathExprParser.TransExprContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MathExprParser#vector}.
+	 * Exit a parse tree produced by the {@code TransExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitVector(MathExprParser.VectorContext ctx);
+	void exitTransExpr(MathExprParser.TransExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code NegationExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterNegationExpr(MathExprParser.NegationExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code NegationExpr}
+	 * labeled alternative in {@link MathExprParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitNegationExpr(MathExprParser.NegationExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code DoubleLiteral}
+	 * labeled alternative in {@link MathExprParser#double}.
+	 * @param ctx the parse tree
+	 */
+	void enterDoubleLiteral(MathExprParser.DoubleLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code DoubleLiteral}
+	 * labeled alternative in {@link MathExprParser#double}.
+	 * @param ctx the parse tree
+	 */
+	void exitDoubleLiteral(MathExprParser.DoubleLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code VectorLiteral}
+	 * labeled alternative in {@link MathExprParser#vector}.
+	 * @param ctx the parse tree
+	 */
+	void enterVectorLiteral(MathExprParser.VectorLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code VectorLiteral}
+	 * labeled alternative in {@link MathExprParser#vector}.
+	 * @param ctx the parse tree
+	 */
+	void exitVectorLiteral(MathExprParser.VectorLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MathExprParser#matrix}.
 	 * @param ctx the parse tree

@@ -21,8 +21,14 @@ public class AddNode extends MathExprNode {
     }
 
     @Override
-    public INDArray executeVector(VirtualFrame frame) {
-        return null;
+    public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
+        INDArray leftVal = this.leftNode.executeVector(frame);
+        try {
+            INDArray rightVal = this.rightNode.executeVector(frame);
+            return leftVal.add(rightVal);
+        } catch (UnexpectedResultException e){}
+        double rightVal = this.rightNode.executeDouble(frame);
+        return leftVal.add(rightVal);
     }
 
     @Override
@@ -33,6 +39,5 @@ public class AddNode extends MathExprNode {
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
         return executeDouble(frame);
-
     }
 }

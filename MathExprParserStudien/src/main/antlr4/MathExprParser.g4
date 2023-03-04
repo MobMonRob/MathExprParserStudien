@@ -5,7 +5,6 @@ options { tokenVocab=MathExprLexer; }
 program
         :       expr EOF
         ;
-//negation muss da auch noch irgendwie rein
 // Operatorauswertung in antlr (wie in Compilerbau) oder in JVM (wie Fabiean)
 //Idee: matrizen transponieren oder was es da so gibt
 // was mit e oder pi?
@@ -25,12 +24,14 @@ expr
         // Literals
         | vector #VectorExpr
         | matrix #MatrixExpr
-        | vector APOSTROPHE #TransExpr
-        | matrix APOSTROPHE #TransExpr
-        | DOUBLE #LiteralExpr       ;
+        | (vector | matrix) APOSTROPHE #TransExpr
+        | POSITIVEDOUBLE #LiteralExpr;
+
+double  :(HYPHEN_MINUS)? POSITIVEDOUBLE #DoubleLiteral
+        ;
 
 vector
-        : LSQUAREBRACKET (DOUBLE SEMICOLON)* RSQUAREBRACKET #VectorLiteral
+        : LSQUAREBRACKET (double SEMICOLON)* RSQUAREBRACKET #VectorLiteral
         ;
 
 matrix
@@ -38,5 +39,5 @@ matrix
         ;
 
 transposedVector
-        : ( DOUBLE DOUBLE+ SEMICOLON)
+        : (double+ SEMICOLON)
         ;
