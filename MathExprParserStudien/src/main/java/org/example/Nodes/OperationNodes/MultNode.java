@@ -24,23 +24,35 @@ public class MultNode extends MathExprNode {
 
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        return null;
+        INDArray leftVal = this.leftNode.executeVector(frame);
+        try {
+            INDArray rightVal = this.rightNode.executeMatrix(frame);
+            return leftVal.mul(rightVal);
+        } catch (UnexpectedResultException e){}
+        double rightVal = this.rightNode.executeDouble(frame);
+        return leftVal.mul(rightVal);
     }
 
     @Override
     public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
         INDArray leftVal = this.leftNode.executeMatrix(frame);
-        INDArray rightVal = this.rightNode.executeMatrix(frame);
-        return leftVal.mmul(rightVal);
+        try {
+            INDArray rightVal = this.rightNode.executeMatrix(frame);
+            return leftVal.mmul(rightVal);
+        } catch (UnexpectedResultException e){}
+        double rightVal = this.rightNode.executeDouble(frame);
+        return leftVal.mul(rightVal);
     }
 
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
-        try{
+        try {
             return executeDouble(frame);
-        }catch (UnexpectedResultException e){
+        } catch (UnexpectedResultException e){}
+        try {
+            return executeVector(frame);
+        } catch (UnexpectedResultException e){
             return executeMatrix(frame);
         }
-
     }
 }

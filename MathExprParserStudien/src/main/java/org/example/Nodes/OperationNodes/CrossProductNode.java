@@ -4,6 +4,9 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import org.example.Nodes.MathExprNode;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.api.ops.impl.shape.Cross;
+import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.ops.transforms.Transforms;
 
 public class CrossProductNode extends MathExprNode {
     @Child
@@ -21,7 +24,9 @@ public class CrossProductNode extends MathExprNode {
 
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        throw new RuntimeException("not implemented yet");
+        INDArray leftVal = this.leftNode.executeVector(frame);
+        INDArray rightVal = this.rightNode.executeVector(frame);
+        return Transforms.cross(leftVal,rightVal); //TODO
     }
 
     @Override
@@ -31,11 +36,6 @@ public class CrossProductNode extends MathExprNode {
 
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
-        try{
-            return executeDouble(frame);
-        }catch (UnexpectedResultException e){
-            return executeMatrix(frame);
-        }
-
+        return executeVector(frame);
     }
 }

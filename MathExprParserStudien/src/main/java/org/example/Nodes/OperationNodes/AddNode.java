@@ -13,7 +13,7 @@ public class AddNode extends MathExprNode {
         this.leftNode = left;
         this.rightNode = right;
     }
-
+    @Override
     public double executeDouble(VirtualFrame frame) throws UnexpectedResultException {
         double leftVal = this.leftNode.executeDouble(frame);
         double rightVal = this.rightNode.executeDouble(frame);
@@ -32,16 +32,25 @@ public class AddNode extends MathExprNode {
     }
 
     @Override
-    public INDArray executeMatrix(VirtualFrame frame) {
-        return null;
+    public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
+        INDArray leftVal = this.leftNode.executeMatrix(frame);
+        try {
+            INDArray rightVal = this.rightNode.executeMatrix(frame);
+            return leftVal.add(rightVal);
+        } catch (UnexpectedResultException e){}
+        double rightVal = this.rightNode.executeDouble(frame);
+        return leftVal.add(rightVal);
     }
 
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
         try {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e){
+        } catch (UnexpectedResultException e){}
+        try {
             return executeVector(frame);
+        } catch (UnexpectedResultException e){
+            return executeMatrix(frame);
         }
     }
 }

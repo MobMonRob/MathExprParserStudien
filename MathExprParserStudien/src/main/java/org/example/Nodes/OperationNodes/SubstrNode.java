@@ -21,16 +21,35 @@ public class SubstrNode extends MathExprNode {
 
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        return null;
+        INDArray leftVal = this.leftNode.executeVector(frame);
+        try {
+            INDArray rightVal = this.rightNode.executeVector(frame);
+            return leftVal.sub(rightVal);
+        } catch (UnexpectedResultException e){}
+        double rightVal = this.rightNode.executeDouble(frame);
+        return leftVal.sub(rightVal);
     }
 
     @Override
-    public INDArray executeMatrix(VirtualFrame frame) {
-        return null;
+    public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
+        INDArray leftVal = this.leftNode.executeMatrix(frame);
+        try {
+            INDArray rightVal = this.rightNode.executeMatrix(frame);
+            return leftVal.sub(rightVal);
+        } catch (UnexpectedResultException e){}
+        double rightVal = this.rightNode.executeDouble(frame);
+        return leftVal.sub(rightVal);
     }
 
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
-        return executeDouble(frame);
+        try {
+            return executeDouble(frame);
+        } catch (UnexpectedResultException e){}
+        try {
+            return executeVector(frame);
+        } catch (UnexpectedResultException e){
+            return executeMatrix(frame);
+        }
     }
 }
