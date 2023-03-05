@@ -38,6 +38,10 @@ public class AddNode extends MathExprNode {
 
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
-        return executeDouble(frame);
+        try {
+            return executeDouble(frame);
+        } catch (UnexpectedResultException e){
+            return executeVector(frame);
+        }
     }
 }

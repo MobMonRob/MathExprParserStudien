@@ -118,11 +118,10 @@ public class MathExprTruffleParser {
 
     private static double[] literalsToArray(List<ParseTree> children) {
         return children.stream()
-                .filter( e -> e instanceof MathExprParser.ExprContext)
-                .map(e -> e.getChild(0).toString())
-                .mapToDouble(e -> Double.parseDouble(e))
+                .filter( e -> e instanceof MathExprParser.DoubleLiteralContext)
+                .map(e -> e.getText())
+                .mapToDouble(e -> Double.valueOf(e))
                 .toArray();
-
     }
 
     private static MathExprNode parenExpr2ExpressionNode(MathExprParser.ParenExprContext parenExpr) {

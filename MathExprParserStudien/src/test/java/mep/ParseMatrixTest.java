@@ -44,5 +44,10 @@ public class ParseMatrixTest {
         var expectedBase = Nd4j.createFromArray(expectedArr);
 
         assertEquals( expectedBase.toString(), result2Vectors.toString());
+
+        var resultVectorDouble = Testevaluation.evaluateStringtoArray("[2; 4; 5; 7.7;] + 3.7");
+        var newExpectedArr = new double[][]{{5.7} , {7.7} , {8.7} , {11.4}};
+        var newExpectedBase = Nd4j.createFromArray(newExpectedArr);
+        assertEquals( newExpectedBase.toString(), resultVectorDouble.toString());
     }
 }
