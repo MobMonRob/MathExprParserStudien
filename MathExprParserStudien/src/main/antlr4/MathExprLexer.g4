@@ -8,6 +8,10 @@ HYPHEN_MINUS
         : '-'
         ;
 
+APOSTROPHE
+        : '\''
+        ;
+
 ASTERISK
         : '*'
         ;
@@ -20,7 +24,7 @@ CROSS
         : 'x'
         ;
 
-CIRCUMFLEX_ACCENT
+CARET
         : '^'
         ;
 
@@ -28,11 +32,11 @@ SEMICOLON
         : ';'
         ;
 
-LPARENT
+LPARENTHESIS
         : '('
         ;
 
-RPARENT
+RPARENTHESIS
         : ')'
         ;
 
@@ -48,7 +52,15 @@ fragment DIGIT
         : [0-9]
         ;
 
-DOUBLE
+fragment LETTER
+        : [a-z,A-Z]
+        ;
+
+IDENTIFIER
+        : LETTER+
+        ;
+
+POSITIVEDOUBLE
         : DIGIT+ ('.' DIGIT+)?
         ;
 

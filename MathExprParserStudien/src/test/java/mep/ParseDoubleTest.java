@@ -10,86 +10,60 @@ import static org.junit.Assert.assertEquals;
 public class ParseDoubleTest {
     @Test
     public void addTest(){
-        MathExprTruffleParser parser2 = new MathExprTruffleParser();
-        var men = parser2.parse("1+7+2");
-
-        var rootNode = new MathExprRootNode(men);
-        CallTarget callTarget = rootNode.getCallTarget();
-
-        var result = callTarget.call();
-
-        assertEquals(10.0 , result);
+        var result = Testevaluation.evaluateStringtoDouble("1+7+2");
+        assertEquals(10.0 , result,0);
     }
 
     @Test
     public void substTest(){
-        MathExprTruffleParser parser = new MathExprTruffleParser();
-        var men = parser.parse("1-7-2");
-        var rootNode = new MathExprRootNode(men);
-        CallTarget callTarget = rootNode.getCallTarget();
-
-        var result = callTarget.call();
-
-        assertEquals(-8.0 , result);
+        var result = Testevaluation.evaluateStringtoDouble("1-7-2");
+        assertEquals(-8.0 , result,0);
     }
 
     @Test
     public void divideTest(){
-        MathExprTruffleParser parser = new MathExprTruffleParser();
-        var men = parser.parse("55/11");
-        var rootNode = new MathExprRootNode(men);
-        CallTarget callTarget = rootNode.getCallTarget();
-
-        var result = callTarget.call();
-
-        assertEquals(5.0 , result);
+        var result = Testevaluation.evaluateStringtoDouble("55/11");
+        assertEquals(5.0 , result,0);
     }
 
     @Test
     public void multiplyTest(){
-        MathExprTruffleParser parser = new MathExprTruffleParser();
-        var men = parser.parse("2*11*7");
-        var rootNode = new MathExprRootNode(men);
-        CallTarget callTarget = rootNode.getCallTarget();
-
-        var result = callTarget.call();
-
-        assertEquals(154.0 , result);
+        var result = Testevaluation.evaluateStringtoDouble("2*11*7");
+        assertEquals(154.0 , result,0);
     }
 
     @Test
     public void potentiateTest(){
-        MathExprTruffleParser parser = new MathExprTruffleParser();
-        var men = parser.parse("2^10");
-        var rootNode = new MathExprRootNode(men);
-        CallTarget callTarget = rootNode.getCallTarget();
-
-        var result = callTarget.call();
-
-        assertEquals(1024.0 , result);
+        var result = Testevaluation.evaluateStringtoDouble("2^10");
+        assertEquals(1024.0 , result,0);
     }
 
     @Test
     public void preferenceTest(){
-        MathExprTruffleParser parser = new MathExprTruffleParser();
-        var men = parser.parse("2+8*8-2^5");
-        var rootNode = new MathExprRootNode(men);
-        CallTarget callTarget = rootNode.getCallTarget();
-
-        var result = callTarget.call();
-
-        assertEquals(34.0 , result);
+        var result = Testevaluation.evaluateStringtoDouble("2+8*8-2^5");
+        assertEquals(34.0 , result,0);
     }
 
     @Test
     public void parenthesisTest(){
-        MathExprTruffleParser parser = new MathExprTruffleParser();
-        var men = parser.parse("(2+8)*(8+3)");
-        var rootNode = new MathExprRootNode(men);
-        CallTarget callTarget = rootNode.getCallTarget();
+        var result = Testevaluation.evaluateStringtoDouble("(2+8)*(8+3)");
+        assertEquals(110.0 , result,0);
+    }
 
-        var result = callTarget.call();
+    @Test
+    public void negationTest(){
+        var result = Testevaluation.evaluateStringtoDouble("-(2*20.4)");
+        assertEquals(-40.8 , result, 0);
+    }
+    @Test
+    public void sinusTest(){
+        var result = Testevaluation.evaluateStringtoDouble("sin(3)");
+        assertEquals(0.14112000806 , (Double) result, 0.001);
+    }
 
-        assertEquals(110.0 , result);
+    @Test
+    public void cosinusTest(){
+        var result = Testevaluation.evaluateStringtoDouble("cos(3)");
+        assertEquals(-0.9899924966 , (Double) result, 0.001);
     }
 }
