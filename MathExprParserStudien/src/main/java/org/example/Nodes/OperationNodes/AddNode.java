@@ -22,24 +22,38 @@ public class AddNode extends MathExprNode {
 
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        INDArray leftVal = this.leftNode.executeVector(frame);
         try {
+            INDArray leftVal = this.leftNode.executeVector(frame);
             INDArray rightVal = this.rightNode.executeVector(frame);
             return leftVal.add(rightVal);
         } catch (UnexpectedResultException e){}
-        double rightVal = this.rightNode.executeDouble(frame);
-        return leftVal.add(rightVal);
+        try {
+            INDArray leftVal = this.leftNode.executeVector(frame);
+            Double rightVal = this.rightNode.executeDouble(frame);
+            return leftVal.add(rightVal);
+        } catch (UnexpectedResultException e){}
+        Double leftVal = this.leftNode.executeDouble(frame);
+        INDArray rightVal = this.rightNode.executeVector(frame);
+        return rightVal.add(leftVal);
     }
 
     @Override
     public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
-        INDArray leftVal = this.leftNode.executeMatrix(frame);
         try {
+            INDArray leftVal = this.leftNode.executeMatrix(frame);
             INDArray rightVal = this.rightNode.executeMatrix(frame);
             return leftVal.add(rightVal);
-        } catch (UnexpectedResultException e){}
-        double rightVal = this.rightNode.executeDouble(frame);
-        return leftVal.add(rightVal);
+        } catch (UnexpectedResultException e){
+        }
+        try {
+            INDArray leftVal = this.leftNode.executeMatrix(frame);
+            Double rightVal = this.rightNode.executeDouble(frame);
+            return leftVal.add(rightVal);
+        } catch (UnexpectedResultException e){
+        }
+        Double leftVal = this.leftNode.executeDouble(frame);
+        INDArray rightVal = this.rightNode.executeMatrix(frame);
+        return rightVal.add(leftVal);
     }
 
     @Override

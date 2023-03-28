@@ -21,23 +21,28 @@ public class SubstrNode extends MathExprNode {
 
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        INDArray leftVal = this.leftNode.executeVector(frame);
         try {
+            INDArray leftVal = this.leftNode.executeVector(frame);
             INDArray rightVal = this.rightNode.executeVector(frame);
             return leftVal.sub(rightVal);
-        } catch (UnexpectedResultException e){}
-        double rightVal = this.rightNode.executeDouble(frame);
-        return leftVal.sub(rightVal);
+        } catch (UnexpectedResultException e){
+        }
+        try {
+            INDArray leftVal = this.leftNode.executeVector(frame);
+            Double rightVal = this.rightNode.executeDouble(frame);
+            return leftVal.sub(rightVal);
+        } catch (UnexpectedResultException e) {
+        }
+        Double leftVal = this.leftNode.executeDouble(frame);
+        INDArray rightVal = this.rightNode.executeVector(frame);
+        return rightVal.sub(leftVal);
     }
 
     @Override
     public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
+        // Matrix - Scalar ist nicht definiert, von daher wird nur Matrix - Matrix und Matrix - Vector unterstützt
         INDArray leftVal = this.leftNode.executeMatrix(frame);
-        try {
-            INDArray rightVal = this.rightNode.executeMatrix(frame);
-            return leftVal.sub(rightVal);
-        } catch (UnexpectedResultException e){}
-        double rightVal = this.rightNode.executeDouble(frame);
+        INDArray rightVal = this.rightNode.executeMatrix(frame);
         return leftVal.sub(rightVal);
     }
 

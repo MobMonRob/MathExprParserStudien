@@ -24,21 +24,14 @@ public class DivNode extends MathExprNode {
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
         INDArray leftVal = this.leftNode.executeVector(frame);
-        try {
-            INDArray rightVal = this.rightNode.executeMatrix(frame);
-            return leftVal.div(rightVal);
-        } catch (UnexpectedResultException e){}
         double rightVal = this.rightNode.executeDouble(frame);
         return leftVal.div(rightVal);
     }
 
     @Override
     public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
+        // Matrix / Matrix not defined
         INDArray leftVal = this.leftNode.executeMatrix(frame);
-        try {
-            INDArray rightVal = this.rightNode.executeMatrix(frame);
-            return leftVal.div(rightVal);
-        } catch (UnexpectedResultException e){}
         double rightVal = this.rightNode.executeDouble(frame);
         return leftVal.div(rightVal);
     }

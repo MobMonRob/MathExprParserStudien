@@ -17,31 +17,55 @@ public class MultNode extends MathExprNode {
 
     @Override
     public double executeDouble(VirtualFrame frame) throws UnexpectedResultException {
-        double leftVal = this.leftNode.executeDouble(frame);
-        double rightVal = this.rightNode.executeDouble(frame);
-        return leftVal * rightVal;
+        try {
+            double leftVal = this.leftNode.executeDouble(frame);
+            double rightVal = this.rightNode.executeDouble(frame);
+            return leftVal * rightVal;
+        } catch (UnexpectedResultException e){}
+        // Execute scalar product
+        INDArray leftVal = this.leftNode.executeVector(frame);
+        INDArray rightVal = this.rightNode.executeVector(frame);
+        if (leftVal.length() != rightVal.length()) {
+            throw new UnexpectedResultException(this);
+        }
+        double scalar = Nd4j.getBlasWrapper().dot(leftVal, rightVal);
+        return scalar;
     }
 
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        INDArray leftVal = this.leftNode.executeVector(frame);
         try {
-            INDArray rightVal = this.rightNode.executeMatrix(frame);
+            INDArray leftVal = this.leftNode.executeVector(frame);
+            INDArray rightVal = this.rightNode.executeVector(frame);
             return leftVal.mul(rightVal);
-        } catch (UnexpectedResultException e){}
-        double rightVal = this.rightNode.executeDouble(frame);
-        return leftVal.mul(rightVal);
+        } catch (UnexpectedResultException e){
+        }
+        try {
+            INDArray leftVal = this.leftNode.executeVector(frame);
+            Double rightVal = this.rightNode.executeDouble(frame);
+            return leftVal.mul(rightVal);
+        } catch (UnexpectedResultException e){
+        }
+        double leftVal = this.leftNode.executeDouble(frame);
+        INDArray rightVal = this.rightNode.executeVector(frame);
+        return rightVal.mul(leftVal);
     }
 
     @Override
     public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
-        INDArray leftVal = this.leftNode.executeMatrix(frame);
         try {
+            INDArray leftVal = this.leftNode.executeMatrix(frame);
             INDArray rightVal = this.rightNode.executeMatrix(frame);
             return leftVal.mmul(rightVal);
         } catch (UnexpectedResultException e){}
-        double rightVal = this.rightNode.executeDouble(frame);
-        return leftVal.mul(rightVal);
+        try {
+            INDArray leftVal = this.leftNode.executeMatrix(frame);
+            Double rightVal = this.rightNode.executeDouble(frame);
+            return leftVal.mul(rightVal);
+        } catch (UnexpectedResultException e){}
+        double leftVal = this.leftNode.executeDouble(frame);
+        INDArray rightVal = this.rightNode.executeMatrix(frame);
+        return rightVal.mul(leftVal);
     }
 
     @Override

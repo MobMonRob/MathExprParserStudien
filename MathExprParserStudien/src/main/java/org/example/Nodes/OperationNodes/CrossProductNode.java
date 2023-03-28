@@ -26,7 +26,15 @@ public class CrossProductNode extends MathExprNode {
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
         INDArray leftVal = this.leftNode.executeVector(frame);
         INDArray rightVal = this.rightNode.executeVector(frame);
-        return Transforms.cross(leftVal,rightVal); //TODO
+
+        if (leftVal.length() != 3 || rightVal.length() != 3) {
+            throw new UnexpectedResultException(this);
+        }
+
+        leftVal = leftVal.reshape(1, 3);
+        rightVal = rightVal.reshape(1, 3);
+
+        return Transforms.cross(leftVal, rightVal);
     }
 
     @Override

@@ -21,22 +21,24 @@ public class TransposeNode extends MathExprNode {
 
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        INDArray child = this.childNode.executeMatrix(frame);
-        var shit = child.transpose();
-        if (shit.isColumnVector()) {
-            return child.transpose();
+        INDArray matrix = this.childNode.executeMatrix(frame);
+
+        matrix = matrix.transpose();
+        if (!matrix.isVector()) {
+            throw new UnexpectedResultException(this);
         }
-        throw new UnexpectedResultException(frame);
+        return matrix;
     }
 
     @Override
     public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
         try {
-            INDArray childVal = this.childNode.executeMatrix(frame);
-            return childVal.transpose();
+            INDArray matrix = this.childNode.executeMatrix(frame);
+            return matrix.transpose();
         } catch (UnexpectedResultException e){}
-        INDArray childVal = this.childNode.executeVector(frame);
-        return childVal.transpose();
+        INDArray vector = this.childNode.executeVector(frame);
+        INDArray matrix = vector.reshape(1, vector.length());
+        return matrix.transpose();
     }
 
     @Override
