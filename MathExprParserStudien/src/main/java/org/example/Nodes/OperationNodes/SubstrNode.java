@@ -6,7 +6,9 @@ import org.example.Nodes.MathExprNode;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class SubstrNode extends MathExprNode {
-    private MathExprNode leftNode, rightNode;
+    private final MathExprNode leftNode;
+    private final MathExprNode rightNode;
+
     public SubstrNode(MathExprNode left, MathExprNode right) {
         this.leftNode = left;
         this.rightNode = right;
@@ -25,7 +27,7 @@ public class SubstrNode extends MathExprNode {
             INDArray leftVal = this.leftNode.executeVector(frame);
             INDArray rightVal = this.rightNode.executeVector(frame);
             return leftVal.sub(rightVal);
-        } catch (UnexpectedResultException e){
+        } catch (UnexpectedResultException e) {
         }
         try {
             INDArray leftVal = this.leftNode.executeVector(frame);
@@ -50,10 +52,11 @@ public class SubstrNode extends MathExprNode {
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
         try {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e){}
+        } catch (UnexpectedResultException e) {
+        }
         try {
             return executeVector(frame);
-        } catch (UnexpectedResultException e){
+        } catch (UnexpectedResultException e) {
             return executeMatrix(frame);
         }
     }

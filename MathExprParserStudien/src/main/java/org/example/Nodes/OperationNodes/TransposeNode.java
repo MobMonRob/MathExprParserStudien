@@ -8,7 +8,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 public class TransposeNode extends MathExprNode {
 
     @Child
-    private MathExprNode childNode;
+    private final MathExprNode childNode;
 
     public TransposeNode(MathExprNode childNode) {
         this.childNode = childNode;
@@ -35,7 +35,8 @@ public class TransposeNode extends MathExprNode {
         try {
             INDArray matrix = this.childNode.executeMatrix(frame);
             return matrix.transpose();
-        } catch (UnexpectedResultException e){}
+        } catch (UnexpectedResultException e) {
+        }
         INDArray vector = this.childNode.executeVector(frame);
         INDArray matrix = vector.reshape(1, vector.length());
         return matrix.transpose();

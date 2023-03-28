@@ -9,7 +9,7 @@ public final class MathExprRootNode extends RootNode {
     @Child
     private MathExprNode exprNode;
 
-    public MathExprRootNode(MathExprNode exprNode){
+    public MathExprRootNode(MathExprNode exprNode) {
         super(null);
         this.exprNode = exprNode;
     }

@@ -7,7 +7,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class NegationNode extends MathExprNode {
     @Child
-    private MathExprNode childNode;
+    private final MathExprNode childNode;
 
     public NegationNode(MathExprNode childNode) {
         this.childNode = childNode;
@@ -31,10 +31,11 @@ public class NegationNode extends MathExprNode {
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
         try {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e){}
+        } catch (UnexpectedResultException e) {
+        }
         try {
             return executeVector(frame);
-        } catch (UnexpectedResultException e){
+        } catch (UnexpectedResultException e) {
             return executeMatrix(frame);
         }
     }

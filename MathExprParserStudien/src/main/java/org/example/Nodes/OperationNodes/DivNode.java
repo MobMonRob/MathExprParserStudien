@@ -7,7 +7,9 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class DivNode extends MathExprNode {
     @Child
-    private MathExprNode leftNode, rightNode;
+    private final MathExprNode leftNode;
+    @Child
+    private final MathExprNode rightNode;
 
     public DivNode(MathExprNode leftNode, MathExprNode rightNode) {
         this.leftNode = leftNode;
@@ -40,10 +42,11 @@ public class DivNode extends MathExprNode {
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
         try {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e){}
+        } catch (UnexpectedResultException e) {
+        }
         try {
             return executeVector(frame);
-        } catch (UnexpectedResultException e){
+        } catch (UnexpectedResultException e) {
             return executeMatrix(frame);
         }
     }
