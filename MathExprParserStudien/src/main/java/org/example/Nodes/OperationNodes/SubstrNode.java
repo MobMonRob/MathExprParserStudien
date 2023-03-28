@@ -6,8 +6,8 @@ import org.example.Nodes.MathExprNode;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class SubstrNode extends MathExprNode {
-    private final MathExprNode leftNode;
-    private final MathExprNode rightNode;
+    private MathExprNode leftNode;
+    private MathExprNode rightNode;
 
     public SubstrNode(MathExprNode left, MathExprNode right) {
         this.leftNode = left;

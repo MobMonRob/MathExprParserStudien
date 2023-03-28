@@ -8,7 +8,7 @@ import org.nd4j.linalg.ops.transforms.Transforms;
 
 public class CosinusNode extends MathExprNode {
     @Child
-    private final MathExprNode childNode;
+    private MathExprNode childNode;
 
     public CosinusNode(MathExprNode childNode) {
         this.childNode = childNode;

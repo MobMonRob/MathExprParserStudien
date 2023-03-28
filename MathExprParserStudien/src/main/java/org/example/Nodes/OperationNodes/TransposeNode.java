@@ -8,7 +8,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 public class TransposeNode extends MathExprNode {
 
     @Child
-    private final MathExprNode childNode;
+    private MathExprNode childNode;
 
     public TransposeNode(MathExprNode childNode) {
         this.childNode = childNode;

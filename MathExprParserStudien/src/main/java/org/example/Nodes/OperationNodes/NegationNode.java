@@ -7,7 +7,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class NegationNode extends MathExprNode {
     @Child
-    private final MathExprNode childNode;
+    private MathExprNode childNode;
 
     public NegationNode(MathExprNode childNode) {
         this.childNode = childNode;

@@ -8,9 +8,9 @@ import org.nd4j.linalg.ops.transforms.Transforms;
 
 public class CrossProductNode extends MathExprNode {
     @Child
-    private final MathExprNode leftNode;
+    private MathExprNode leftNode;
     @Child
-    private final MathExprNode rightNode;
+    private MathExprNode rightNode;
 
     public CrossProductNode(MathExprNode leftNode, MathExprNode rightNode) {
         this.leftNode = leftNode;

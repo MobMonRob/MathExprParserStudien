@@ -8,9 +8,9 @@ import org.nd4j.linalg.factory.Nd4j;
 
 public class MultNode extends MathExprNode {
     @Child
-    private final MathExprNode leftNode;
+    private MathExprNode leftNode;
     @Child
-    private final MathExprNode rightNode;
+    private MathExprNode rightNode;
 
     public MultNode(MathExprNode leftNode, MathExprNode rightNode) {
         this.leftNode = leftNode;

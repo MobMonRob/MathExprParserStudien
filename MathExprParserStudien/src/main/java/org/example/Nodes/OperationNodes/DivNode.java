@@ -7,9 +7,9 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class DivNode extends MathExprNode {
     @Child
-    private final MathExprNode leftNode;
+    private MathExprNode leftNode;
     @Child
-    private final MathExprNode rightNode;
+    private MathExprNode rightNode;
 
     public DivNode(MathExprNode leftNode, MathExprNode rightNode) {
         this.leftNode = leftNode;

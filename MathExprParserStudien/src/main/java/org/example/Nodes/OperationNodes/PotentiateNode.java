@@ -8,9 +8,9 @@ import org.nd4j.linalg.ops.transforms.Transforms;
 
 public class PotentiateNode extends MathExprNode {
     @Child
-    private final MathExprNode leftNode;
+    private MathExprNode leftNode;
     @Child
-    private final MathExprNode rightNode;
+    private MathExprNode rightNode;
 
     public PotentiateNode(MathExprNode leftNode, MathExprNode rightNode) {
         this.leftNode = leftNode;
