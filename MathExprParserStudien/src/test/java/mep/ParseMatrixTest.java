@@ -157,8 +157,9 @@ public class ParseMatrixTest {
     @Test
     public void VMTransposeTest() {
         // TODO: transpose node is not executed correctly but transpose node is correct
-        INDArray resultMatrix = Testevaluation.evaluateStringtoArray("[1 2; 5 -4.3;]'");
-        INDArray expected = Nd4j.createFromArray(new double[][]{{1, 5}, {2, -4.3}});
+        // TODO: weird error for 3x2 matrices
+        INDArray resultMatrix = Testevaluation.evaluateStringtoArray("[2 6 7; 5 1 7; 4 7 7;]'");
+        INDArray expected = Nd4j.create(new double[][]{{2, 5, 4}, {6, 1 , 7}, {7, 7 ,7}});
         assertEquals(expected, resultMatrix);
     }
 

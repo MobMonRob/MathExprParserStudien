@@ -72,10 +72,10 @@ public class MathExprTruffleParser {
 
     private static MathExprNode transExpr2TransposeNode(MathExprParser.TransExprContext transposeExpr) {
         if (transposeExpr.matrix() != null) {
-            return ParseTree2MatrixNode(transposeExpr.matrix().children);
+            return new TransposeNode(ParseTree2MatrixNode(transposeExpr.matrix().children));
         }
         if (transposeExpr.vector() != null) {
-            return ParseTree2VectorNode(transposeExpr.vector().children);
+            return new TransposeNode(ParseTree2VectorNode(transposeExpr.vector().children));
         }
         throw new RuntimeException("error in antlr configuration");
     }
