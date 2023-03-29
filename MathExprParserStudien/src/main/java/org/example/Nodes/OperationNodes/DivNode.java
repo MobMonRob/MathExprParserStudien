@@ -7,7 +7,9 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class DivNode extends MathExprNode {
     @Child
-    private MathExprNode leftNode, rightNode;
+    private MathExprNode leftNode;
+    @Child
+    private MathExprNode rightNode;
 
     public DivNode(MathExprNode leftNode, MathExprNode rightNode) {
         this.leftNode = leftNode;
@@ -24,21 +26,14 @@ public class DivNode extends MathExprNode {
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
         INDArray leftVal = this.leftNode.executeVector(frame);
-        try {
-            INDArray rightVal = this.rightNode.executeMatrix(frame);
-            return leftVal.div(rightVal);
-        } catch (UnexpectedResultException e){}
         double rightVal = this.rightNode.executeDouble(frame);
         return leftVal.div(rightVal);
     }
 
     @Override
     public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
+        // Matrix / Matrix not defined
         INDArray leftVal = this.leftNode.executeMatrix(frame);
-        try {
-            INDArray rightVal = this.rightNode.executeMatrix(frame);
-            return leftVal.div(rightVal);
-        } catch (UnexpectedResultException e){}
         double rightVal = this.rightNode.executeDouble(frame);
         return leftVal.div(rightVal);
     }
@@ -47,10 +42,11 @@ public class DivNode extends MathExprNode {
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
         try {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e){}
+        } catch (UnexpectedResultException e) {
+        }
         try {
             return executeVector(frame);
-        } catch (UnexpectedResultException e){
+        } catch (UnexpectedResultException e) {
             return executeMatrix(frame);
         }
     }

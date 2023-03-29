@@ -6,7 +6,7 @@ import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 
-public abstract class MathExprNode extends Node{
+public abstract class MathExprNode extends Node {
 
     public abstract double executeDouble(VirtualFrame frame) throws UnexpectedResultException;
 

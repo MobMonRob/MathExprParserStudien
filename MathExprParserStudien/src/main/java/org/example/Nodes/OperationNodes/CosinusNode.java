@@ -1,16 +1,12 @@
 package org.example.Nodes.OperationNodes;
 
 import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import org.example.Nodes.MathExprNode;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.api.ops.impl.transforms.strict.Cos;
 import org.nd4j.linalg.ops.transforms.Transforms;
 
-import javax.xml.crypto.dsig.Transform;
-
-public class CosinusNode extends MathExprNode{
+public class CosinusNode extends MathExprNode {
     @Child
     private MathExprNode childNode;
 
@@ -30,7 +26,7 @@ public class CosinusNode extends MathExprNode{
     }
 
     @Override
-    public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException{
+    public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
         INDArray child = this.childNode.executeMatrix(frame);
         return Transforms.cos(child);
     }
@@ -39,10 +35,11 @@ public class CosinusNode extends MathExprNode{
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
         try {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e){}
+        } catch (UnexpectedResultException e) {
+        }
         try {
             return executeVector(frame);
-        } catch (UnexpectedResultException e){
+        } catch (UnexpectedResultException e) {
             return executeMatrix(frame);
         }
     }

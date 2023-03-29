@@ -26,7 +26,7 @@ public class SinusNode extends MathExprNode {
     }
 
     @Override
-    public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException{
+    public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
         INDArray child = this.childNode.executeMatrix(frame);
         return Transforms.sin(child);
     }
@@ -35,10 +35,11 @@ public class SinusNode extends MathExprNode {
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
         try {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e){}
+        } catch (UnexpectedResultException e) {
+        }
         try {
             return executeVector(frame);
-        } catch (UnexpectedResultException e){
+        } catch (UnexpectedResultException e) {
             return executeMatrix(frame);
         }
     }

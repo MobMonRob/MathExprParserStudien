@@ -31,10 +31,11 @@ public class NegationNode extends MathExprNode {
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
         try {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e){}
+        } catch (UnexpectedResultException e) {
+        }
         try {
             return executeVector(frame);
-        } catch (UnexpectedResultException e){
+        } catch (UnexpectedResultException e) {
             return executeMatrix(frame);
         }
     }
