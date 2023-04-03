@@ -39,12 +39,6 @@ public class MultNode extends MathExprNode {
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
         try {
             INDArray leftVal = this.leftNode.executeVector(frame);
-            INDArray rightVal = this.rightNode.executeVector(frame);
-            return leftVal.mul(rightVal);
-        } catch (UnexpectedResultException e) {
-        }
-        try {
-            INDArray leftVal = this.leftNode.executeVector(frame);
             Double rightVal = this.rightNode.executeDouble(frame);
             return leftVal.mul(rightVal);
         } catch (UnexpectedResultException e) {
