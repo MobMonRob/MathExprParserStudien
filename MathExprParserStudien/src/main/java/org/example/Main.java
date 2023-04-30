@@ -9,6 +9,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        // Warm up
+        new MathExprRootNode(MathExprTruffleParser.parse("[2 2; 3 3;] * [2 2; 3 3;]")).getCallTarget().call();
+
         while (true){
             System.out.print("Function: ");
             String input = new Scanner(System.in).nextLine();
