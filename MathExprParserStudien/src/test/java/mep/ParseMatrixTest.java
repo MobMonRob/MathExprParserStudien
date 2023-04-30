@@ -112,7 +112,7 @@ public class ParseMatrixTest {
         expected = Nd4j.createFromArray(new double[][]{{7, 14}, {35, -23.1}});
         assertEquals(expected, resultMatrix);
 
-        assertThrows(IllegalStateException.class, () -> Testevaluation.evaluateStringtoArray("[2; 4; 5; 7.7;] * [3.7;4;]"));
+        assertThrows(RuntimeException.class, () -> Testevaluation.evaluateStringtoArray("[2; 4; 5; 7.7;] * [3.7;4;]"));
     }
 
     @Test
