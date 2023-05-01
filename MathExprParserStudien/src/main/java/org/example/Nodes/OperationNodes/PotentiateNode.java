@@ -40,14 +40,20 @@ public class PotentiateNode extends MathExprNode {
 
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
-        try {
+        Object leftVal = this.leftNode.executeGeneric(frame);
+        Object rightVal = this.rightNode.executeGeneric(frame);
+
+        if (leftVal instanceof INDArray && rightVal instanceof Double) {
+            INDArray left = (INDArray) leftVal;
+            if (left.isVector()) {
+                return executeVector(frame);
+            } else {
+                return executeMatrix(frame);
+            }
+        } else if (leftVal instanceof Double && rightVal instanceof Double) {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e) {
         }
-        try {
-            return executeVector(frame);
-        } catch (UnexpectedResultException e) {
-            return executeMatrix(frame);
-        }
+
+        throw new UnexpectedResultException("Error in PotentiateNode");
     }
 }

@@ -5,6 +5,8 @@ import org.example.Nodes.MathExprNode;
 import org.example.Nodes.MathExprRootNode;
 import org.example.Parsing.MathExprTruffleParser;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
@@ -15,6 +17,7 @@ public class Main {
         while (true){
             System.out.print("Function: ");
             String input = new Scanner(System.in).nextLine();
+            if (input.equals("file")) input = readFromFile();
             long start = System.currentTimeMillis();
             MathExprNode mathExprNode = MathExprTruffleParser.parse(input);
             RootNode rootNode = new MathExprRootNode(mathExprNode);
@@ -22,5 +25,21 @@ public class Main {
             long end = System.currentTimeMillis();
             System.out.println("Result: " + result + " in " + (end - start) + "ms");
         }
+    }
+
+    private static String readFromFile(){
+        File file = new File("zahlen.txt");
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        String text = "";
+        while (scanner.hasNextLine()) {
+            text += scanner.nextLine() + "\n";
+        }
+        scanner.close();
+        return text;
     }
 }

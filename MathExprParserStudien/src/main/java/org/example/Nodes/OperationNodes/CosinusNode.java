@@ -8,39 +8,44 @@ import org.nd4j.linalg.ops.transforms.Transforms;
 
 public class CosinusNode extends MathExprNode {
     @Child
-    private MathExprNode childNode;
+    private MathExprNode valNode;
 
-    public CosinusNode(MathExprNode childNode) {
-        this.childNode = childNode;
+    public CosinusNode(MathExprNode valNode) {
+        this.valNode = valNode;
     }
 
     public double executeDouble(VirtualFrame frame) throws UnexpectedResultException {
-        double childVal = this.childNode.executeDouble(frame);
-        return Math.cos(childVal); //TODO on graphics card?
+        double value = this.valNode.executeDouble(frame);
+        return Math.cos(value);
     }
 
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        INDArray child = this.childNode.executeVector(frame);
-        return Transforms.cos(child);
+        INDArray value = this.valNode.executeVector(frame);
+        return Transforms.cos(value);
     }
 
     @Override
     public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
-        INDArray child = this.childNode.executeMatrix(frame);
-        return Transforms.cos(child);
+        INDArray value = this.valNode.executeMatrix(frame);
+        return Transforms.cos(value);
     }
 
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
-        try {
+        Object value = this.valNode.executeGeneric(frame);
+
+        if (value instanceof Double) {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e) {
         }
-        try {
-            return executeVector(frame);
-        } catch (UnexpectedResultException e) {
+        if (value instanceof INDArray) {
+            INDArray val = (INDArray) value;
+            if (val.isVector()) {
+                return executeVector(frame);
+            }
             return executeMatrix(frame);
         }
+
+        throw new UnexpectedResultException("Error in CosinusNode");
     }
 }

@@ -7,36 +7,40 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class NegationNode extends MathExprNode {
     @Child
-    private MathExprNode childNode;
+    private MathExprNode valNode;
 
-    public NegationNode(MathExprNode childNode) {
-        this.childNode = childNode;
+    public NegationNode(MathExprNode valNode) {
+        this.valNode = valNode;
     }
 
     public double executeDouble(VirtualFrame frame) throws UnexpectedResultException {
-        return -childNode.executeDouble(frame);
+        return -valNode.executeDouble(frame);
     }
 
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        return childNode.executeVector(frame).neg();
+        return valNode.executeVector(frame).neg();
     }
 
     @Override
     public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
-        return childNode.executeMatrix(frame).neg();
+        return valNode.executeMatrix(frame).neg();
     }
 
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
-        try {
+        Object value = valNode.executeGeneric(frame);
+
+        if (value instanceof Double) {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e) {
-        }
-        try {
-            return executeVector(frame);
-        } catch (UnexpectedResultException e) {
+        } else if (value instanceof INDArray) {
+            INDArray val = (INDArray) value;
+            if (val.isVector()) {
+                return executeVector(frame);
+            }
             return executeMatrix(frame);
         }
+
+        throw new UnexpectedResultException("Error in NegationNode");
     }
 }

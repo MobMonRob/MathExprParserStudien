@@ -25,26 +25,28 @@ public class SubstrNode extends MathExprNode {
 
     @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        try {
-            INDArray leftVal = this.leftNode.executeVector(frame);
-            INDArray rightVal = this.rightNode.executeVector(frame);
-            return leftVal.sub(rightVal);
-        } catch (UnexpectedResultException e) {
+        Object leftVal = this.leftNode.executeGeneric(frame);
+        Object rightVal = this.rightNode.executeGeneric(frame);
+
+        if (leftVal instanceof INDArray && rightVal instanceof INDArray) {
+            INDArray left = (INDArray) leftVal;
+            INDArray right = (INDArray) rightVal;
+            return left.sub(right);
+        } else if (leftVal instanceof INDArray && rightVal instanceof Double) {
+            INDArray left = (INDArray) leftVal;
+            Double right = (Double) rightVal;
+            return left.sub(right);
+        } else if (leftVal instanceof Double && rightVal instanceof INDArray) {
+            Double left = (Double) leftVal;
+            INDArray right = (INDArray) rightVal;
+            return right.sub(left);
         }
-        try {
-            INDArray leftVal = this.leftNode.executeVector(frame);
-            Double rightVal = this.rightNode.executeDouble(frame);
-            return leftVal.sub(rightVal);
-        } catch (UnexpectedResultException e) {
-        }
-        Double leftVal = this.leftNode.executeDouble(frame);
-        INDArray rightVal = this.rightNode.executeVector(frame);
-        return rightVal.sub(leftVal);
+
+        throw new UnexpectedResultException("Error in SubstrNode");
     }
 
     @Override
     public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
-        // Matrix - Scalar ist nicht definiert, von daher wird nur Matrix - Matrix und Matrix - Vector unterstützt
         INDArray leftVal = this.leftNode.executeMatrix(frame);
         INDArray rightVal = this.rightNode.executeMatrix(frame);
         return leftVal.sub(rightVal);
@@ -52,14 +54,15 @@ public class SubstrNode extends MathExprNode {
 
     @Override
     public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
-        try {
+        Object leftVal = this.leftNode.executeGeneric(frame);
+        Object rightVal = this.rightNode.executeGeneric(frame);
+
+        if (leftVal instanceof Double && rightVal instanceof Double) {
             return executeDouble(frame);
-        } catch (UnexpectedResultException e) {
-        }
-        try {
-            return executeVector(frame);
-        } catch (UnexpectedResultException e) {
+        } else if (leftVal instanceof INDArray && rightVal instanceof INDArray && (!((INDArray) leftVal).isVector() || !((INDArray) rightVal).isVector())) {
             return executeMatrix(frame);
+        } else {
+            return executeVector(frame);
         }
     }
 }

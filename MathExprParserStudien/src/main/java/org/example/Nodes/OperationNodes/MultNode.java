@@ -36,6 +36,7 @@ public class MultNode extends MathExprNode {
         return scalar;
     }
 
+    @Override
     public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
         Object leftResult = leftNode.executeGeneric(frame);
         Object rightResult = rightNode.executeGeneric(frame);
