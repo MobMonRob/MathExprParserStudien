@@ -1,13 +1,7 @@
 package org.example.Nodes.OperationNodes;
 
-import com.oracle.truffle.api.CompilerDirectives;
-import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
-import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.nodes.Node;
-import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import org.example.Nodes.BinaryNode;
-import org.example.Nodes.MathExprNode;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
@@ -18,31 +12,32 @@ public abstract class MultNode extends BinaryNode {
         return left * right;
     }
 
-    /*
-    @Specialization
-    public double exMaMaToSc(INDArray left, INDArray right){
-        if (left.length() != right.length()) {
-            CompilerDirectives.transferToInterpreterAndInvalidate();
-            System.err.println("Error during execution of scalar product. Vectors have different length");
-        }
+    @Specialization(guards = "isScalarProduct(left, right)")
+    public double exMaMaToSc(INDArray left, INDArray right) {
         double scalar = Nd4j.getBlasWrapper().dot(left, right);
         return scalar;
     }
-    */
 
-    @Specialization
+    @Specialization(guards = "isNotScalarProduct(left, right)")
     public INDArray exMaMaToMa(INDArray left, INDArray right) {
-
         return left.mmul(right);
     }
 
-    @Specialization
-    public INDArray exMaScToMa(INDArray left, double right){
+    @Specialization(guards = "isINDArrayAndDouble(left, right)")
+    public INDArray exMaScToMa(INDArray left, double right) {
         return left.mul(right);
     }
 
-    @Specialization
-    public INDArray exScMaToMa(double left, INDArray right){
+    @Specialization(guards = "isINDArrayAndDouble(right, left)")
+    public INDArray exScMaToMa(double left, INDArray right) {
         return right.mul(left);
+    }
+
+    protected boolean isScalarProduct(INDArray left, INDArray right) {
+        return left.isVector() && right.isVector() && left.length() == right.length();
+    }
+
+    protected boolean isNotScalarProduct(INDArray left, INDArray right) {
+        return !isScalarProduct(left, right);
     }
 }

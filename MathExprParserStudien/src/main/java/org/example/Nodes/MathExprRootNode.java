@@ -2,7 +2,6 @@ package org.example.Nodes;
 
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.RootNode;
-import com.oracle.truffle.api.nodes.UnexpectedResultException;
 
 public final class MathExprRootNode extends RootNode {
     @SuppressWarnings("FieldMayBeFinal")
