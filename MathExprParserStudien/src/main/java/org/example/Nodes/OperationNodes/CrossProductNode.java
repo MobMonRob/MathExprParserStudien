@@ -1,49 +1,21 @@
 package org.example.Nodes.OperationNodes;
 
-import com.oracle.truffle.api.frame.VirtualFrame;
-import com.oracle.truffle.api.nodes.UnexpectedResultException;
+import com.oracle.truffle.api.dsl.Specialization;
+import org.example.Nodes.BinaryNode;
 import org.example.Nodes.MathExprNode;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.ops.transforms.Transforms;
 
-public class CrossProductNode extends MathExprNode {
-    @Child
-    private MathExprNode leftNode;
-    @Child
-    private MathExprNode rightNode;
-
-    public CrossProductNode(MathExprNode leftNode, MathExprNode rightNode) {
-        this.leftNode = leftNode;
-        this.rightNode = rightNode;
-    }
-
-    @Override
-    public double executeDouble(VirtualFrame frame) throws UnexpectedResultException {
-        throw new UnexpectedResultException(this);
-    }
-
-    @Override
-    public INDArray executeVector(VirtualFrame frame) throws UnexpectedResultException {
-        INDArray leftVal = this.leftNode.executeVector(frame);
-        INDArray rightVal = this.rightNode.executeVector(frame);
-
-        if (leftVal.length() != 3 || rightVal.length() != 3) {
-            throw new UnexpectedResultException(this);
+public abstract class CrossProductNode extends BinaryNode {
+    @Specialization
+    public INDArray exMaMaToMa(INDArray left, INDArray right){
+        if (left.length() != 3 || right.length() != 3) {
+            System.err.println("Cross product is only defined for vectors of length 3");
         }
 
-        leftVal = leftVal.reshape(1, 3);
-        rightVal = rightVal.reshape(1, 3);
+        left = left.reshape(1, 3);
+        right = right.reshape(1, 3);
 
-        return Transforms.cross(leftVal, rightVal);
-    }
-
-    @Override
-    public INDArray executeMatrix(VirtualFrame frame) throws UnexpectedResultException {
-        throw new UnexpectedResultException(this);
-    }
-
-    @Override
-    public Object executeGeneric(VirtualFrame frame) throws UnexpectedResultException {
-        return executeVector(frame);
+        return Transforms.cross(left, right);
     }
 }

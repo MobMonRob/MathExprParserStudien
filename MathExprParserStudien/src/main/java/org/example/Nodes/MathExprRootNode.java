@@ -16,10 +16,6 @@ public final class MathExprRootNode extends RootNode {
 
     @Override
     public Object execute(VirtualFrame frame) {
-        try {
-            return this.exprNode.executeGeneric(frame);
-        } catch (UnexpectedResultException e) {
-            throw new RuntimeException(e);
-        }
+        return exprNode.executeGeneric(frame);
     }
 }

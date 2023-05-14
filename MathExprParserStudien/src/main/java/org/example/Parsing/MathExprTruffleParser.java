@@ -72,24 +72,29 @@ public class MathExprTruffleParser {
 
     private static MathExprNode transExpr2TransposeNode(MathExprParser.TransExprContext transposeExpr) {
         if (transposeExpr.matrix() != null) {
-            return new TransposeNode(ParseTree2MatrixNode(transposeExpr.matrix().children));
+            MathExprNode transposeNode = TransposeNodeGen.create(ParseTree2MatrixNode(transposeExpr.matrix().children));
+            return transposeNode;
         }
         if (transposeExpr.vector() != null) {
-            return new TransposeNode(ParseTree2VectorNode(transposeExpr.vector().children));
+            TransposeNode transposeNode = TransposeNodeGen.create(ParseTree2VectorNode(transposeExpr.vector().children));
+            return transposeNode;
         }
         throw new RuntimeException("error in antlr configuration");
     }
 
     private static MathExprNode negationExpr2NegationNode(MathExprParser.NegationExprContext negationExpr) {
-        return new NegationNode(expr2TruffleNode(negationExpr.expr()));
+        NegationNode negationNode = NegationNodeGen.create(expr2TruffleNode(negationExpr.expr()));
+        return negationNode;
     }
 
     private static MathExprNode functionExpr2ExpressionNode(MathExprParser.FunctionExprContext sinusExpr) {
         if (sinusExpr.IDENTIFIER().toString().equals("sin")) {
-            return new SinusNode(expr2TruffleNode(sinusExpr.expr()));
+            SinusNode sinusNode = SinusNodeGen.create(expr2TruffleNode(sinusExpr.expr()));
+            return sinusNode;
         }
         if (sinusExpr.IDENTIFIER().toString().equals("cos")) {
-            return new CosinusNode(expr2TruffleNode(sinusExpr.expr()));
+            CosinusNode cosinusNode = CosinusNodeGen.create(expr2TruffleNode(sinusExpr.expr()));
+            return cosinusNode;
         }
         throw new RuntimeException("function not implemented yet");
     }
@@ -136,19 +141,24 @@ public class MathExprTruffleParser {
 
     private static MathExprNode multExpr2MultNode(MathExprParser.MultExprContext multExpr) {
         if (multExpr.SOLIDUS() != null) {
-            return new DivNode(expr2TruffleNode(multExpr.expr(0)), expr2TruffleNode(multExpr.expr(1)));
+            DivNode divNode = DivNodeGen.create(expr2TruffleNode(multExpr.expr(0)), expr2TruffleNode(multExpr.expr(1)));
+            return divNode;
         }
         if (multExpr.ASTERISK() != null) {
-            return new MultNode(expr2TruffleNode(multExpr.expr(0)), expr2TruffleNode(multExpr.expr(1)));
+            MultNode multNode = MultNodeGen.create(expr2TruffleNode(multExpr.expr(0)), expr2TruffleNode(multExpr.expr(1)));
+            return multNode;
         }
-        return new CrossProductNode(expr2TruffleNode(multExpr.expr(0)), expr2TruffleNode(multExpr.expr(1)));
+        CrossProductNode crossProductNode = CrossProductNodeGen.create(expr2TruffleNode(multExpr.expr(0)), expr2TruffleNode(multExpr.expr(1)));
+        return crossProductNode;
     }
 
     private static MathExprNode addExpr2AddNode(MathExprParser.AddExprContext addExpr) {
         if (addExpr.HYPHEN_MINUS() != null) {
-            return new SubstrNode(expr2TruffleNode(addExpr.expr(0)), expr2TruffleNode(addExpr.expr(1)));
+            SubstrNode substrNode = SubstrNodeGen.create(expr2TruffleNode(addExpr.expr(0)), expr2TruffleNode(addExpr.expr(1)));
+            return substrNode;
         }
-        return new AddNode(expr2TruffleNode(addExpr.expr(0)), expr2TruffleNode(addExpr.expr(1)));
+        AddNode addNode = AddNodeGen.create(expr2TruffleNode(addExpr.expr(0)), expr2TruffleNode(addExpr.expr(1)));
+        return addNode;
     }
 
     private static MathExprNode literalExpr2ExprNode(MathExprParser.LiteralExprContext literalExpr) {
@@ -156,6 +166,7 @@ public class MathExprTruffleParser {
     }
 
     private static MathExprNode expExpr2PotentialNode(MathExprParser.ExponentExprContext expExpr) {
-        return new PotentiateNode(expr2TruffleNode(expExpr.expr(0)), expr2TruffleNode(expExpr.expr(1)));
+        PotentiateNode potentiateNode = PotentiateNodeGen.create(expr2TruffleNode(expExpr.expr(0)), expr2TruffleNode(expExpr.expr(1)));
+        return potentiateNode;
     }
 }

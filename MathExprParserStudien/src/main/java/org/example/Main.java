@@ -5,19 +5,20 @@ import org.example.Nodes.MathExprNode;
 import org.example.Nodes.MathExprRootNode;
 import org.example.Parsing.MathExprTruffleParser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // Warm up
-        new MathExprRootNode(MathExprTruffleParser.parse("[2 2; 3 3;] * [2 2; 3 3;]")).getCallTarget().call();
+        timeMeasure();
+        //inputFunction();
+    }
 
+    private static void inputFunction(){
         while (true){
             System.out.print("Function: ");
             String input = new Scanner(System.in).nextLine();
-            if (input.equals("file")) input = readFromFile();
             long start = System.currentTimeMillis();
             MathExprNode mathExprNode = MathExprTruffleParser.parse(input);
             RootNode rootNode = new MathExprRootNode(mathExprNode);
@@ -27,19 +28,49 @@ public class Main {
         }
     }
 
-    private static String readFromFile(){
-        File file = new File("zahlen.txt");
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(file);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+    private static void timeMeasure(){
+        int rounds = 1000;
+        int[] results = new int[rounds];
+
+        for (int i = 0; i < rounds; i++) {
+            String input = generateFunction(10,10);
+            long start = System.currentTimeMillis();
+            MathExprNode mathExprNode = MathExprTruffleParser.parse(input);
+            RootNode rootNode = new MathExprRootNode(mathExprNode);
+            String result = rootNode.getCallTarget().call().toString();
+            long end = System.currentTimeMillis();
+            //System.out.println("Result: " + result + " in " + (end - start) + "ms");
+            results[i] = (int) (end - start);
+            System.out.println("Round " + (i+1) + " of " + rounds);
         }
-        String text = "";
-        while (scanner.hasNextLine()) {
-            text += scanner.nextLine() + "\n";
+
+        System.out.println("Results: " + Arrays.toString(results));
+        System.out.println("Median: " + Arrays.stream(results).sorted().toArray()[rounds/2]);
+        System.out.println("Average: " + Arrays.stream(results).average().getAsDouble());
+        System.out.println("Max: " + Arrays.stream(results).max().getAsInt());
+        System.out.println("Min: " + Arrays.stream(results).min().getAsInt());
+
+    }
+
+    private static String generateFunction(int size, int multiplications){
+        Random random = new Random();
+        StringBuilder function = new StringBuilder();
+        int[] numbers = new int[size];
+
+        for (int i = 0; i <= multiplications; i++) {
+            for (int j = 0; j < size; j++) {
+                for (int k = 0; k < size; k++) {
+                    numbers[k] = random.nextInt(256);
+                }
+                function.append(String.join(" ", Arrays.stream(numbers)
+                        .mapToObj(String::valueOf)
+                        .toArray(String[]::new)));
+                function.append("; ");
+            }
+            if (i != multiplications) function.append("] * [" );
         }
-        scanner.close();
-        return text;
+        String result = "[" + function + "]";
+
+        return result;
     }
 }

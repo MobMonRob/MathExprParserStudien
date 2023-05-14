@@ -16,8 +16,8 @@ import static org.junit.Assert.assertEquals;
 public class ExecuteNodesTest {
     @Test
     public void addNodeDouble() {
-        MathExprNode exprNode = new AddNode(new DoubleLiteralNode(22), new DoubleLiteralNode(9));
-        MathExprRootNode rootNode = new MathExprRootNode(exprNode);
+        AddNode addNode = AddNodeGen.create(new DoubleLiteralNode(22), new DoubleLiteralNode(9));
+        MathExprRootNode rootNode = new MathExprRootNode(addNode);
         CallTarget callTarget = rootNode.getCallTarget();
 
         double result = (double) callTarget.call();
@@ -26,8 +26,8 @@ public class ExecuteNodesTest {
 
     @Test
     public void substrNodeDouble() {
-        MathExprNode exprNode = new SubstrNode(new DoubleLiteralNode(22), new DoubleLiteralNode(9));
-        MathExprRootNode rootNode = new MathExprRootNode(exprNode);
+        SubstrNode substrNode = SubstrNodeGen.create(new DoubleLiteralNode(22), new DoubleLiteralNode(9));
+        MathExprRootNode rootNode = new MathExprRootNode(substrNode);
         CallTarget callTarget = rootNode.getCallTarget();
 
         double result = (double) callTarget.call();
@@ -36,8 +36,8 @@ public class ExecuteNodesTest {
 
     @Test
     public void cosinusNodeDouble() {
-        MathExprNode exprNode = new CosinusNode(new DoubleLiteralNode(Math.PI));
-        MathExprRootNode rootNode = new MathExprRootNode(exprNode);
+        CosinusNode cosinusNode = CosinusNodeGen.create(new DoubleLiteralNode(Math.PI));
+        MathExprRootNode rootNode = new MathExprRootNode(cosinusNode);
         CallTarget callTarget = rootNode.getCallTarget();
 
         double result = (double) callTarget.call();
@@ -46,8 +46,8 @@ public class ExecuteNodesTest {
 
     @Test
     public void sinusNodeDouble() {
-        MathExprNode exprNode = new SinusNode(new DoubleLiteralNode(Math.PI));
-        MathExprRootNode rootNode = new MathExprRootNode(exprNode);
+        SinusNode sinusNode = SinusNodeGen.create(new DoubleLiteralNode(Math.PI));
+        MathExprRootNode rootNode = new MathExprRootNode(sinusNode);
         CallTarget callTarget = rootNode.getCallTarget();
 
         double result = (double) callTarget.call();
@@ -56,8 +56,8 @@ public class ExecuteNodesTest {
 
     @Test
     public void divNodeDouble() {
-        MathExprNode exprNode = new DivNode(new DoubleLiteralNode(22), new DoubleLiteralNode(11));
-        MathExprRootNode rootNode = new MathExprRootNode(exprNode);
+        DivNode divNode = DivNodeGen.create(new DoubleLiteralNode(22), new DoubleLiteralNode(11));
+        MathExprRootNode rootNode = new MathExprRootNode(divNode);
         CallTarget callTarget = rootNode.getCallTarget();
 
         double result = (double) callTarget.call();
@@ -66,16 +66,16 @@ public class ExecuteNodesTest {
 
     @Test
     public void multNodeDouble() {
-        MathExprNode exprNode = new MultNode(new DoubleLiteralNode(22), new DoubleLiteralNode(5));
-        MathExprRootNode rootNode = new MathExprRootNode(exprNode);
+        MultNode multNode = MultNodeGen.create(new DoubleLiteralNode(22), new DoubleLiteralNode(5));
+        MathExprRootNode rootNode = new MathExprRootNode(multNode);
         CallTarget callTarget = rootNode.getCallTarget();
 
         double result = (double) callTarget.call();
         assertEquals(110.0, result, 0.00001);
 
         INDArray vector = Nd4j.create(new double[]{1, 2, 3});
-        MathExprNode exprNode1 = new MultNode(new VectorLiteralNode(vector), new VectorLiteralNode(vector));
-        MathExprRootNode rootNode1 = new MathExprRootNode(exprNode1);
+        MultNode multNode1 = MultNodeGen.create(new DoubleLiteralNode(2), new VectorLiteralNode(vector));
+        MathExprRootNode rootNode1 = new MathExprRootNode(multNode1);
         CallTarget callTarget1 = rootNode1.getCallTarget();
 
         result = (double) callTarget1.call();
@@ -84,8 +84,8 @@ public class ExecuteNodesTest {
 
     @Test
     public void potentiateNodeDouble() {
-        MathExprNode exprNode = new PotentiateNode(new DoubleLiteralNode(4), new DoubleLiteralNode(4));
-        MathExprRootNode rootNode = new MathExprRootNode(exprNode);
+        PotentiateNode potentiateNode = PotentiateNodeGen.create(new DoubleLiteralNode(4), new DoubleLiteralNode(4));
+        MathExprRootNode rootNode = new MathExprRootNode(potentiateNode);
         CallTarget callTarget = rootNode.getCallTarget();
 
         double result = (double) callTarget.call();
@@ -95,8 +95,8 @@ public class ExecuteNodesTest {
     @Test
     public void transposeNodeVector() {
         INDArray matrix = Nd4j.create(new double[][]{{1, 2, 3}});
-        MathExprNode exprNode = new TransposeNode(new VectorLiteralNode(matrix));
-        MathExprRootNode rootNode = new MathExprRootNode(exprNode);
+        TransposeNode transposeNode = TransposeNodeGen.create(new VectorLiteralNode(matrix));
+        MathExprRootNode rootNode = new MathExprRootNode(transposeNode);
         CallTarget callTarget = rootNode.getCallTarget();
 
         INDArray result = (INDArray) callTarget.call();
@@ -107,8 +107,8 @@ public class ExecuteNodesTest {
     @Test
     public void transposeNodeMatrix() {
         INDArray matrix = Nd4j.create(new double[][]{{1, 2, 3}, {4, 5, 6}});
-        MathExprNode exprNode = new TransposeNode(new MatrixLiteralNode(matrix));
-        MathExprRootNode rootNode = new MathExprRootNode(exprNode);
+        TransposeNode transposeNode = TransposeNodeGen.create(new MatrixLiteralNode(matrix));
+        MathExprRootNode rootNode = new MathExprRootNode(transposeNode);
         CallTarget callTarget = rootNode.getCallTarget();
 
         INDArray result = (INDArray) callTarget.call();
@@ -120,8 +120,8 @@ public class ExecuteNodesTest {
     public void crossProductNodeVector() {
         INDArray vector = Nd4j.create(new double[][]{{1}, {2}, {3}});
         INDArray vector1 = Nd4j.create(new double[][]{{4}, {5}, {6}});
-        MathExprNode exprNode = new CrossProductNode(new VectorLiteralNode(vector), new VectorLiteralNode(vector1));
-        MathExprRootNode rootNode = new MathExprRootNode(exprNode);
+        CrossProductNode crossProductNode = CrossProductNodeGen.create(new VectorLiteralNode(vector), new VectorLiteralNode(vector1));
+        MathExprRootNode rootNode = new MathExprRootNode(crossProductNode);
         CallTarget callTarget = rootNode.getCallTarget();
 
         INDArray result = (INDArray) callTarget.call();
