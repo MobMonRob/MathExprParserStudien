@@ -13,4 +13,4 @@ Studienarbeit Parsen mathematischer Formeln und Rechnen auf Zeitreihen
 ## Run Main
 - Move to correct folder ```cd MathExprParserStudien```
 - Build project```mvn package```
-- Run Main```java -cp ".\target\MathExprParserStudien-1.0-SNAPSHOT.jar;.\target\lib\*" org.example.Main --add-exports org.graalvm.truffle/com.oracle.truffle.api.nodes=ALL-UNNAMED```
+- Run Main```java -cp ".\target\MathExprParserStudien-1.0-SNAPSHOT.jar;.\target\lib\*" de.dhbw.karlsruhe.dsl.Main --add-exports org.graalvm.truffle/com.oracle.truffle.api.nodes=ALL-UNNAMED```
