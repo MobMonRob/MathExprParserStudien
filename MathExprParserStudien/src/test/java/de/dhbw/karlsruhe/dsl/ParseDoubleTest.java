@@ -1,4 +1,4 @@
-package mep;
+package de.dhbw.karlsruhe.dsl;
 
 import org.junit.Test;
 

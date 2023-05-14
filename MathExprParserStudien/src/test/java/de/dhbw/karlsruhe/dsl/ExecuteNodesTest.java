@@ -1,4 +1,4 @@
-package mep;
+package de.dhbw.karlsruhe.dsl;
 
 import com.oracle.truffle.api.CallTarget;
 import de.dhbw.karlsruhe.dsl.Nodes.LiteralNodes.DoubleLiteralNode;
