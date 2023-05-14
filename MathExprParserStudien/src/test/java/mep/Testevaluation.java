@@ -1,8 +1,8 @@
 package mep;
 
 import com.oracle.truffle.api.CallTarget;
-import org.example.Nodes.MathExprRootNode;
-import org.example.Parsing.MathExprTruffleParser;
+import de.dhbw.karlsruhe.dsl.Nodes.MathExprRootNode;
+import de.dhbw.karlsruhe.dsl.Parsing.MathExprTruffleParser;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 public class Testevaluation {

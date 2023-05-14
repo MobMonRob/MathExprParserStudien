@@ -172,7 +172,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.example.Main</mainClass>
+                            <mainClass>de.dhbw.karlsruhe.dsl.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

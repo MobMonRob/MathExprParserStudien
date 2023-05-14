@@ -1,12 +1,12 @@
 package mep;
 
 import com.oracle.truffle.api.CallTarget;
-import org.example.Nodes.DataTypeNodes.DoubleLiteralNode;
-import org.example.Nodes.DataTypeNodes.MatrixLiteralNode;
-import org.example.Nodes.DataTypeNodes.VectorLiteralNode;
-import org.example.Nodes.MathExprNode;
-import org.example.Nodes.MathExprRootNode;
-import org.example.Nodes.OperationNodes.*;
+import de.dhbw.karlsruhe.dsl.Nodes.LiteralNodes.DoubleLiteralNode;
+import de.dhbw.karlsruhe.dsl.Nodes.LiteralNodes.MatrixLiteralNode;
+import de.dhbw.karlsruhe.dsl.Nodes.LiteralNodes.VectorLiteralNode;
+import de.dhbw.karlsruhe.dsl.Nodes.MathExprRootNode;
+import de.dhbw.karlsruhe.dsl.Nodes.OperationNodes.BinaryNodes.*;
+import de.dhbw.karlsruhe.dsl.Nodes.OperationNodes.UnaryNodes.*;
 import org.junit.Test;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
