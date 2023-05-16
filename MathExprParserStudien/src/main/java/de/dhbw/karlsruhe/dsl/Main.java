@@ -11,8 +11,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        timeMeasure();
-        //inputFunction();
+        //timeMeasure();
+        inputFunction();
     }
 
     private static void inputFunction(){

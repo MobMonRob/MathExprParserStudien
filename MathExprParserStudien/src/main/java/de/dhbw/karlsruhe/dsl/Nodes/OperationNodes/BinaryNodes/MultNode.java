@@ -14,9 +14,7 @@ public abstract class MultNode extends BinaryNode {
 
     @Specialization(guards = "isScalarProduct(left, right)")
     public double exMaMaToSc(INDArray left, INDArray right) {
-        //TODO: is not executed
-        double scalar = Nd4j.getBlasWrapper().dot(left, right);
-        return scalar;
+        return Nd4j.getBlasWrapper().dot(left, right);
     }
 
     @Specialization(guards = "isNotScalarProduct(left, right)")
@@ -35,8 +33,7 @@ public abstract class MultNode extends BinaryNode {
     }
 
     protected boolean isScalarProduct(INDArray left, INDArray right) {
-        //TODO: check for vector
-        return left.length() == right.length() && left.length() == 3;
+        return left.isVector() && right.isVector() && left.length() == right.length();
     }
 
     protected boolean isNotScalarProduct(INDArray left, INDArray right) {

@@ -78,8 +78,8 @@ public class ExecuteNodesTest {
         MathExprRootNode rootNode1 = new MathExprRootNode(multNode1);
         CallTarget callTarget1 = rootNode1.getCallTarget();
 
-        result = (double) callTarget1.call();
-        assertEquals(14.0, result, 0.00001);
+        INDArray result2 = (INDArray) callTarget1.call();
+        assertEquals(Nd4j.create(new double[]{2, 4, 6}), result2);
     }
 
     @Test
