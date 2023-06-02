@@ -1,7 +1,7 @@
 # MathExprParserStudien
 Studienarbeit Parsen mathematischer Formeln und Rechnen auf Zeitreihen
 
-## Setup
+## Setup for IntelliJ IDE
  - Download [Maven](https://maven.apache.org/download.cgi)
  - Download [GraalVM | Java 19](https://github.com/graalvm/graalvm-ce-builds/releases/tag/vm-22.3.1) 
  - Download [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/download/)
@@ -10,6 +10,10 @@ Studienarbeit Parsen mathematischer Formeln und Rechnen auf Zeitreihen
  - Build Project
  - Run Tests in src/test/java/mep
 
+## Setup for Netbeans IDE
+ - Clone the repository by Netbeans 
+ - Executes "Run" on the projects node
+ 
 ## Run Main
 - Move to correct folder ```cd MathExprParserStudien```
 - Build project ```mvn package```
